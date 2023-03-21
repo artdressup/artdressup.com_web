@@ -2,7 +2,7 @@
   <div>
     <div class='row'>
       <div class='col'>
-        <img src='public/hsyang.jpg' />
+        <img src='hsyang.jpg' />
       </div>
     </div>
   </div>
