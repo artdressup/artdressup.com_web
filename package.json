@@ -12,6 +12,7 @@
     "dev": "quasar dev"
   },
   "dependencies": {
+    "@babylonjs/loaders": "^5.51.0",
     "@near-wallet-selector/core": "^7.9.1",
     "@near-wallet-selector/modal-ui": "^7.9.1",
     "@near-wallet-selector/my-near-wallet": "^7.9.1",
@@ -19,7 +20,10 @@
     "@near-wallet-selector/sender": "^7.9.1",
     "@quasar/extras": "^1.0.0",
     "axios": "^1.2.1",
+    "babylonjs": "^5.51.0",
+    "babylonjs-loaders": "^5.51.0",
     "buffer": "^6.0.3",
+    "canvas": "^2.11.0",
     "dotenv": "^16.0.3",
     "near-api-js": "^1.1.0",
     "pinia": "^2.0.11",
