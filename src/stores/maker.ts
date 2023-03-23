@@ -226,7 +226,7 @@ export const useMakerStore = defineStore('makerStore', () => {
         const count = dressroomMeta.value.body;
         for (let i = 0; i < count; i++) {
           const numStr = i.toString().padStart(4, '0');
-          const name = `body_${numStr}`
+          const name = `body_${numStr}`;
           const path = getPath(name);
           result.push(path);
         }
@@ -237,7 +237,7 @@ export const useMakerStore = defineStore('makerStore', () => {
         const count = dressroomMeta.value.hat;
         for (let i = 0; i < count; i++) {
           const numStr = i.toString().padStart(4, '0');
-          const name = `hat_${numStr}`
+          const name = `hat_${numStr}`;
           const path = getPath(name);
           result.push(path);
         }
@@ -248,7 +248,7 @@ export const useMakerStore = defineStore('makerStore', () => {
         const count = dressroomMeta.value.hair;
         for (let i = 0; i < count; i++) {
           const numStr = i.toString().padStart(4, '0');
-          const name = `hair_${numStr}`
+          const name = `hair_${numStr}`;
           const path = getPath(name);
           result.push(path);
         }
@@ -259,7 +259,7 @@ export const useMakerStore = defineStore('makerStore', () => {
         const count = dressroomMeta.value.eyes;
         for (let i = 0; i < count; i++) {
           const numStr = i.toString().padStart(4, '0');
-          const name = `eyes_${numStr}`
+          const name = `eyes_${numStr}`;
           const path = getPath(name);
           result.push(path);
         }
@@ -270,7 +270,7 @@ export const useMakerStore = defineStore('makerStore', () => {
         const count = dressroomMeta.value.glasses;
         for (let i = 0; i < count; i++) {
           const numStr = i.toString().padStart(4, '0');
-          const name = `glasses_${numStr}`
+          const name = `glasses_${numStr}`;
           const path = getPath(name);
           result.push(path);
         }
@@ -281,7 +281,7 @@ export const useMakerStore = defineStore('makerStore', () => {
         const count = dressroomMeta.value.flush;
         for (let i = 0; i < count; i++) {
           const numStr = i.toString().padStart(4, '0');
-          const name = `flush_${numStr}`
+          const name = `flush_${numStr}`;
           const path = getPath(name);
           result.push(path);
         }
@@ -292,7 +292,7 @@ export const useMakerStore = defineStore('makerStore', () => {
         const count = dressroomMeta.value.mouth;
         for (let i = 0; i < count; i++) {
           const numStr = i.toString().padStart(4, '0');
-          const name = `mouth_${numStr}`
+          const name = `mouth_${numStr}`;
           const path = getPath(name);
           result.push(path);
         }
@@ -303,7 +303,7 @@ export const useMakerStore = defineStore('makerStore', () => {
         const count = dressroomMeta.value.shirts;
         for (let i = 0; i < count; i++) {
           const numStr = i.toString().padStart(4, '0');
-          const name = `shirts_${numStr}`
+          const name = `shirts_${numStr}`;
           const path = getPath(name);
           result.push(path);
         }
@@ -315,7 +315,7 @@ export const useMakerStore = defineStore('makerStore', () => {
         const count = dressroomMeta.value.pants;
         for (let i = 0; i < count; i++) {
           const numStr = i.toString().padStart(4, '0');
-          const name = `pants_${numStr}`
+          const name = `pants_${numStr}`;
           const path = getPath(name);
           result.push(path);
         }
@@ -326,7 +326,7 @@ export const useMakerStore = defineStore('makerStore', () => {
         const count = dressroomMeta.value.onePiece;
         for (let i = 0; i < count; i++) {
           const numStr = i.toString().padStart(4, '0');
-          const name = `onePiece_${numStr}`
+          const name = `onePiece_${numStr}`;
           const path = getPath(name);
           result.push(path);
         }
@@ -337,7 +337,7 @@ export const useMakerStore = defineStore('makerStore', () => {
         const count = dressroomMeta.value.lHand;
         for (let i = 0; i < count; i++) {
           const numStr = i.toString().padStart(4, '0');
-          const name = `lHand_${numStr}`
+          const name = `lHand_${numStr}`;
           const path = getPath(name);
           result.push(path);
         }
@@ -348,7 +348,7 @@ export const useMakerStore = defineStore('makerStore', () => {
         const count = dressroomMeta.value.rHand;
         for (let i = 0; i < count; i++) {
           const numStr = i.toString().padStart(4, '0');
-          const name = `rHand_${numStr}`
+          const name = `rHand_${numStr}`;
           const path = getPath(name);
           result.push(path);
         }
@@ -359,7 +359,7 @@ export const useMakerStore = defineStore('makerStore', () => {
         const count = dressroomMeta.value.shoes;
         for (let i = 0; i < count; i++) {
           const numStr = i.toString().padStart(4, '0');
-          const name = `shoes_${numStr}`
+          const name = `shoes_${numStr}`;
           const path = getPath(name);
           result.push(path);
         }
@@ -370,7 +370,7 @@ export const useMakerStore = defineStore('makerStore', () => {
         const count = dressroomMeta.value.wing;
         for (let i = 0; i < count; i++) {
           const numStr = i.toString().padStart(4, '0');
-          const name = `wing_${numStr}`
+          const name = `wing_${numStr}`;
           const path = getPath(name);
           result.push(path);
         }
@@ -381,7 +381,7 @@ export const useMakerStore = defineStore('makerStore', () => {
         const count = dressroomMeta.value.background;
         for (let i = 0; i < count; i++) {
           const numStr = i.toString().padStart(4, '0');
-          const name = `background_${numStr}`
+          const name = `background_${numStr}`;
           const path = getPath(`background_${numStr}`);
           result.push(path);
         }
@@ -396,123 +396,102 @@ export const useMakerStore = defineStore('makerStore', () => {
   const getName = (url: string) => {
     const lastSlashIndex = url.lastIndexOf('/') + 1; // 1을 더하는 이유는 / 이후의 문자열을 가져오기 위해서입니다.
     const name1 = url.substring(lastSlashIndex, url.lastIndexOf('.'));
-    return name1
-  }
+    return name1;
+  };
 
   const choiceDress = (url: string) => {
-    const name = getName(url)
-    console.log('choiceDress!!' , name)
+    const name = getName(url);
+    console.log('choiceDress!!', name);
 
     if (name.includes('body_')) {
-      // 동일한 이름이 들어오면 제거
-      if (dressroomChoice.value.body === name) {
-        dressroomChoice.value.body = ''
-      } else {
-        dressroomChoice.value.body = name
-      }
+      dressroomChoice.value.body = name;
     } else if (name.includes('hat_')) {
       if (dressroomChoice.value.hat === name) {
-        dressroomChoice.value.hat = ''
+        dressroomChoice.value.hat = '';
       } else {
-        dressroomChoice.value.hat = name
+        dressroomChoice.value.hat = name;
       }
     } else if (name.includes('hair_')) {
-      if (dressroomChoice.value.hair === name) {
-        dressroomChoice.value.hair = ''
-      } else {
-        dressroomChoice.value.hair = name
-      }
+      dressroomChoice.value.hair = name;
     } else if (name.includes('eyes_')) {
-      if (dressroomChoice.value.eyes === name) {
-        dressroomChoice.value.eyes = ''
-      } else {
-        dressroomChoice.value.eyes = name
-      }
+      dressroomChoice.value.eyes = name;
     } else if (name.includes('glasses_')) {
       if (dressroomChoice.value.glasses === name) {
-        dressroomChoice.value.glasses = ''
+        dressroomChoice.value.glasses = '';
       } else {
-        dressroomChoice.value.glasses = name
+        dressroomChoice.value.glasses = name;
       }
     } else if (name.includes('flush_')) {
       if (dressroomChoice.value.flush === name) {
-        dressroomChoice.value.flush = ''
+        dressroomChoice.value.flush = '';
       } else {
-        dressroomChoice.value.flush = name
+        dressroomChoice.value.flush = name;
       }
     } else if (name.includes('mouth_')) {
       if (dressroomChoice.value.mouth === name) {
-        dressroomChoice.value.mouth = ''
+        dressroomChoice.value.mouth = '';
       } else {
-        dressroomChoice.value.mouth = name
+        dressroomChoice.value.mouth = name;
       }
     } else if (name.includes('shirts_')) {
-      if (dressroomChoice.value.shirts === name) {
-        dressroomChoice.value.shirts = ''
-      } else {
-        dressroomChoice.value.shirts = name
-      }
+      dressroomChoice.value.shirts = name;
     } else if (name.includes('pants_')) {
-      if (dressroomChoice.value.pants === name) {
-        dressroomChoice.value.pants = ''
-      } else {
-        dressroomChoice.value.pants = name
-      }
+      dressroomChoice.value.pants = name;
     } else if (name.includes('onePiece_')) {
       if (dressroomChoice.value.onePiece === name) {
-        dressroomChoice.value.onePiece = ''
+        dressroomChoice.value.onePiece = '';
       } else {
-        dressroomChoice.value.onePiece = name
+        dressroomChoice.value.onePiece = name;
       }
     } else if (name.includes('lHand_')) {
       if (dressroomChoice.value.lHand === name) {
-        dressroomChoice.value.lHand = ''
+        dressroomChoice.value.lHand = '';
       } else {
-        dressroomChoice.value.lHand = name
+        dressroomChoice.value.lHand = name;
       }
     } else if (name.includes('rHand_')) {
       if (dressroomChoice.value.rHand === name) {
-        dressroomChoice.value.rHand = ''
+        dressroomChoice.value.rHand = '';
       } else {
-        dressroomChoice.value.rHand = name
+        dressroomChoice.value.rHand = name;
       }
     } else if (name.includes('shoes_')) {
       if (dressroomChoice.value.shoes === name) {
-        dressroomChoice.value.shoes = ''
+        dressroomChoice.value.shoes = '';
       } else {
-        dressroomChoice.value.shoes = name
+        dressroomChoice.value.shoes = name;
       }
     } else if (name.includes('wing_')) {
       if (dressroomChoice.value.wing === name) {
-        dressroomChoice.value.wing = ''
+        dressroomChoice.value.wing = '';
       } else {
-        dressroomChoice.value.wing = name
+        dressroomChoice.value.wing = name;
       }
     } else if (name.includes('background_')) {
       if (dressroomChoice.value.background === name) {
-        dressroomChoice.value.background = ''
+        dressroomChoice.value.background = '';
       } else {
-        dressroomChoice.value.background = name
+        dressroomChoice.value.background = name;
       }
     }
 
     if (dressroomChoice.value === null || dressroomChoice.value === undefined) {
-      console.log("???")
+      console.log('???');
     }
 
-    console.log(JSON.stringify(dressroomChoice.value))
+    console.log(JSON.stringify(dressroomChoice.value));
 
-    state.ttock = !state.ttock
-    console.log('ttock: ', state.ttock)
+    state.ttock = !state.ttock;
+    console.log('ttock: ', state.ttock);
   };
 
   const imageToBase64 = async (url: string) => {
-    const img = await loadImage(url)
+    const img = await loadImage(url);
     const canvas = createCanvas(IMG_WIDTH, IMG_HEIGHT);
-    const ctx = canvas.getContext('2d')
-    ctx.drawImage(img, 0, 0, IMG_WIDTH, IMG_HEIGHT)
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0, IMG_WIDTH, IMG_HEIGHT);
     return canvas.toDataURL();
-  }
+  };
 
   return {
     getName,
