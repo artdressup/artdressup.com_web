@@ -121,20 +121,31 @@ export const useMakerStore = defineStore('makerStore', () => {
   const dressroomChoice: Ref<DressRoomChoice> = ref({
     body: 'body_0001',
     hat: '',
-    hair: '',
+    hair: 'hair_0001',
     eyes: 'eyes_0001',
     glasses: '',
     flush: '',
     mouth: '',
-    shirts: '',
-    pants: '',
+    shirts: 'shirts_0001',
+    pants: 'pants_0001',
     onePiece: '',
     lHand: '',
     rHand: '',
-    shoes: '',
+    shoes: 'shoes_0000',
     wing: '',
     background: ''
   });
+
+  // nft 생성 시 보낼 데이터 - dressroomChoice와 초기값이 같아야 한다.
+  // 이 객체에는 선택하지 않은 부위의 값은 입력하면 안된다.
+  const choiceObj = {
+    body: 1,
+    hair: 1,
+    eyes: 1,
+    shirts: 1,
+    pants: 1,
+    shoes: 0
+  }
 
   const state = reactive({
     ttock: false,
@@ -399,79 +410,119 @@ export const useMakerStore = defineStore('makerStore', () => {
     return name1;
   };
 
+  const getNum = (name: string) => {
+    try {
+      const lastSlashIndex = name.lastIndexOf('_') + 1; // 1을 더하는 이유는 / 이후의 문자열을 가져오기 위해서입니다.
+      const numStr = name.substring(lastSlashIndex, name.length);
+      console.log('numStr:', numStr)
+      const num = parseInt(numStr)
+      console.log('getNum:', num)
+      return num
+    } catch (e) {
+      throw e
+    }
+  }
+
+
   const choiceDress = (url: string) => {
     const name = getName(url);
+    const num = getNum(name)
     console.log('choiceDress!!', name);
 
     if (name.includes('body_')) {
       dressroomChoice.value.body = name;
+      choiceObj['body'] = num
     } else if (name.includes('hat_')) {
       if (dressroomChoice.value.hat === name) {
         dressroomChoice.value.hat = '';
+        delete choiceObj['hat'];
       } else {
         dressroomChoice.value.hat = name;
+        choiceObj['hat'] = num
       }
     } else if (name.includes('hair_')) {
       dressroomChoice.value.hair = name;
+      choiceObj['hair'] = num
     } else if (name.includes('eyes_')) {
       dressroomChoice.value.eyes = name;
+      choiceObj['eyes'] = num
     } else if (name.includes('glasses_')) {
       if (dressroomChoice.value.glasses === name) {
         dressroomChoice.value.glasses = '';
+        delete choiceObj['glasses']
       } else {
         dressroomChoice.value.glasses = name;
+        choiceObj['glasses'] = num
       }
     } else if (name.includes('flush_')) {
       if (dressroomChoice.value.flush === name) {
         dressroomChoice.value.flush = '';
+        delete choiceObj['flush']
       } else {
         dressroomChoice.value.flush = name;
+        choiceObj['flush'] = num
       }
     } else if (name.includes('mouth_')) {
       if (dressroomChoice.value.mouth === name) {
         dressroomChoice.value.mouth = '';
+        delete choiceObj['mouth']
       } else {
         dressroomChoice.value.mouth = name;
+        choiceObj['mouth'] = num
       }
     } else if (name.includes('shirts_')) {
       dressroomChoice.value.shirts = name;
+      choiceObj['shirts'] = num
     } else if (name.includes('pants_')) {
       dressroomChoice.value.pants = name;
+      choiceObj['pants'] = num
     } else if (name.includes('onePiece_')) {
       if (dressroomChoice.value.onePiece === name) {
         dressroomChoice.value.onePiece = '';
+        delete choiceObj['onePiece']
       } else {
         dressroomChoice.value.onePiece = name;
+        choiceObj['onePiece'] = num
       }
     } else if (name.includes('lHand_')) {
       if (dressroomChoice.value.lHand === name) {
         dressroomChoice.value.lHand = '';
+        delete choiceObj['lHand']
       } else {
         dressroomChoice.value.lHand = name;
+        choiceObj['lHand'] = num
       }
     } else if (name.includes('rHand_')) {
       if (dressroomChoice.value.rHand === name) {
         dressroomChoice.value.rHand = '';
+        delete choiceObj['rHand']
       } else {
         dressroomChoice.value.rHand = name;
+        choiceObj['rHand'] = num
       }
     } else if (name.includes('shoes_')) {
       if (dressroomChoice.value.shoes === name) {
         dressroomChoice.value.shoes = '';
+        delete choiceObj['shoes']
       } else {
         dressroomChoice.value.shoes = name;
+        choiceObj['shoes'] = num
       }
     } else if (name.includes('wing_')) {
       if (dressroomChoice.value.wing === name) {
         dressroomChoice.value.wing = '';
+        delete choiceObj['wing']
       } else {
         dressroomChoice.value.wing = name;
+        choiceObj['wing'] = num
       }
     } else if (name.includes('background_')) {
       if (dressroomChoice.value.background === name) {
         dressroomChoice.value.background = '';
+        delete choiceObj['background']
       } else {
         dressroomChoice.value.background = name;
+        choiceObj['background'] = num
       }
     }
 
@@ -499,6 +550,7 @@ export const useMakerStore = defineStore('makerStore', () => {
     dressroomItems,
     dressroomChoice,
     choiceDress,
+    choiceObj,
     ...toRefs(state)
   };
 }, {

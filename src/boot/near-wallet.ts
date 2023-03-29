@@ -151,6 +151,8 @@ class NWallet {
       if (res && res['result'] != undefined) {
         return JSON.parse(Buffer.from(res.result).toString());
       }
+
+      return null;
   }
 
   // Call a method that changes the contract's state
@@ -176,6 +178,20 @@ class NWallet {
       return providers.getTransactionLastResult(outcome!)
     }
     return null
+  }
+
+  async testCallMethod1() {
+    const result = await this.callMethod({ contractId: CONTRACT_ADDRESS, method: 'create_reservation', args: { token_id: 'hello123token123' }, deposit: 20 });
+    console.log('testCallMethod1 Result::', result)
+  }
+
+  async testViewMethod1() {
+    const result = await this.viewMethod({ contractId: CONTRACT_ADDRESS, method: 'get_reservations', args: { token_id: 'hello123token123' }});
+    if (result !== null) {
+      console.log('testViewMethod1:', result)
+    } else {
+      console.log('testViewMethod1 result is null')
+    }
   }
 
   // Get transaction result from the network
@@ -215,4 +231,4 @@ export default boot(async ({app}) => {
   app.config.globalProperties.$wallet = wallet;
 })
 
-export {NWallet, wallet};
+export {NWallet, wallet };

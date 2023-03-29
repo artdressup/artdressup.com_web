@@ -34,3 +34,6 @@ yarn-error.log*
 
 # Quasar Build files
 src-pwa
+
+# env files
+.env

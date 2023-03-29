@@ -12,8 +12,14 @@
 <!--  </div>-->
 
   <div class='q-pa-md row'>
-    <div class='col'></div>
     <div class='col'>
+      <q-btn label='test call' @click='test1'/>
+      <q-btn label='test view' @click='test2'/>
+      <q-btn label='getToken' @click='getTokenId'/>
+
+
+    </div>
+    <div class='col' style='background-color: red'>
       <canvas ref='canvas1' width='512' height='512'></canvas>
     </div>
     <div class='col'>
@@ -25,6 +31,8 @@
 <script>
 import { defineComponent, ref, reactive, toRef, watch } from 'vue';
 import { useMakerStore } from 'stores/maker'
+import { useAuthStore } from 'stores/auth'
+import { useWsStore } from '../stores/websocket';
 import { createCanvas, loadImage } from 'canvas';
 
 import DressRoom from 'components/DressRoom.vue'
@@ -45,15 +53,26 @@ export default defineComponent({
     // context.drawImage(myimg2, 0, 0, 512, 512)
 
 
-    const canvas1 = this.$refs.canvas1;
-    const context = canvas1.getContext('2d')
+    const canvas = this.$refs.canvas1;
+    const context = canvas.getContext('2d')
     this.context1 = context
 
-    const myimg0 = await loadImage(this.getPath('body_0001'))
-    const myimg1 = await loadImage(this.getPath('eyes_0001'))
 
-    context.drawImage(myimg0, 0, 0, 512, 512)
-    context.drawImage(myimg1, 0, 0, 512, 512)
+    // 여기를 바꾸면 stores/makers.ts 에서 기본 선택 값으
+    // choiceObj,  dressroomChoice 객체의 초기값도 바꿔주어야 한다.
+    const myimg0 = await loadImage(this.getPath('body_0001'))
+    const myimg1 = await loadImage(this.getPath('hair_0001'))
+    const myimg2 = await loadImage(this.getPath('eyes_0001'))
+    const myimg3 = await loadImage(this.getPath('pants_0001'))
+    const myimg4 = await loadImage(this.getPath('shirts_0001'))
+    const myimg5 = await loadImage(this.getPath('shoes_0000'))
+
+    context.drawImage(myimg0, 0, 0)
+    context.drawImage(myimg1, 0, 0)
+    context.drawImage(myimg2, 0, 0)
+    context.drawImage(myimg3, 0, 0)
+    context.drawImage(myimg4, 0, 0)
+    context.drawImage(myimg5, 0, 0)
 
     // const canvas2 = this.$refs.canvas2;
     // this.context2 = canvas2.getContext('2d')
@@ -63,11 +82,22 @@ export default defineComponent({
     const canvasRef = ref(null);
     const context1 = ref(null);
     const $makerStore = useMakerStore()
+    const $authStore = useAuthStore()
+    const $wsStore = useWsStore()
+
     const choice = ref($makerStore.dressroomChoice);
 
     const state = reactive({
       canvas2: null,
     })
+
+    const test1 = () => {
+      $authStore.testMethod1()
+    }
+
+    const test2 = () => {
+      $authStore.testMethod2()
+    }
 
     const getPath = (name) => {
       return $makerStore.getPath(name);
@@ -215,6 +245,11 @@ export default defineComponent({
     //   data.
     // }
 
+    const getTokenId = async () => {
+      const choiceObj = $makerStore.choiceObj;
+      console.log('choiceObj::', JSON.stringify(choiceObj))
+      $wsStore.getTokenId(choiceObj)
+    }
 
     const image2 = async () => {
       // const canvas1 = canvasRef.value;
@@ -247,7 +282,11 @@ export default defineComponent({
       canvasRef,
       context1,
       clearRect,
-      ...toRef(state)
+      ...toRef(state),
+
+      getTokenId,
+      test1,
+      test2
     }
   }
 });

@@ -8,6 +8,7 @@
           <b>Art Dress Up</b>
         </q-toolbar-title>
 
+        <q-btn label='sign in' @click='signIn' />
         <q-btn
           flat
           dense
@@ -51,6 +52,7 @@
 <script lang='ts'>
 import { defineComponent, ref } from 'vue';
 import EssentialLink from 'components/EssentialLink.vue';
+import { useAuthStore } from 'stores/auth';
 
 const linksList = [
   {
@@ -70,13 +72,19 @@ export default defineComponent({
 
   setup() {
     const leftDrawerOpen = ref(false);
+    const $authStore = useAuthStore();
+
+    const signIn = () => {
+      $authStore.signIn()
+    }
 
     return {
       essentialLinks: linksList,
       leftDrawerOpen,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
-      }
+      },
+      signIn,
     };
   }
 });

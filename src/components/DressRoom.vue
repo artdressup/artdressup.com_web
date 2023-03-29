@@ -4,23 +4,40 @@
 <!--    {{items.body}}-->
     <div class='row'>
       <div class='col-2' style='border: 1px solid'>
-        <q-btn label='body' @click='category=0' style='display: block'/>
-        <q-btn label='hat' @click='category=1' style='display: block'/>
-        <q-btn label='hair' @click='category=2' style='display: block'/>
+<!--        // https://d2licbkztr442e.cloudfront.net/resource/-->
+        <img src='https://cdn.artdressup.com/menu/dressroom/menu_body.webp' @click='category=0' style='width: 80px; height: 80px'/>
+        <img src='https://cdn.artdressup.com/menu/dressroom/menu_hat.webp' @click='category=1' style='width: 80px; height: 80px'/>
+        <img src='https://cdn.artdressup.com/menu/dressroom/menu_hair.webp' @click='category=2' style='width: 80px; height: 80px'/>
+        <img src='https://cdn.artdressup.com/menu/dressroom/menu_eyes.webp' @click='category=3' style='width: 80px; height: 80px'/>
+        <img src='https://cdn.artdressup.com/menu/dressroom/menu_glasses.webp' @click='category=4' style='width: 80px; height: 80px'/>
+        <img src='https://cdn.artdressup.com/menu/dressroom/menu_flush.webp' @click='category=5' style='width: 80px; height: 80px'/>
+        <img src='https://cdn.artdressup.com/menu/dressroom/menu_mouth.webp' @click='category=6' style='width: 80px; height: 80px'/>
+        <img src='https://cdn.artdressup.com/menu/dressroom/menu_shirts.webp' @click='category=7' style='width: 80px; height: 80px'/>
+        <img src='https://cdn.artdressup.com/menu/dressroom/menu_pants.webp' @click='category=8' style='width: 80px; height: 80px'/>
+        <img src='https://cdn.artdressup.com/menu/dressroom/menu_onePiece.webp' @click='category=9' style='width: 80px; height: 80px'/>
+        <img src='https://cdn.artdressup.com/menu/dressroom/menu_lHand.webp' @click='category=10' style='width: 80px; height: 80px'/>
+        <img src='https://cdn.artdressup.com/menu/dressroom/menu_rHand.webp' @click='category=11' style='width: 80px; height: 80px'/>
+        <img src='https://cdn.artdressup.com/menu/dressroom/menu_shoes.webp' @click='category=12' style='width: 80px; height: 80px'/>
+        <img src='https://cdn.artdressup.com/menu/dressroom/menu_wing.webp' @click='category=13' style='width: 80px; height: 80px'/>
+        <img src='https://cdn.artdressup.com/menu/dressroom/menu_background.webp' @click='category=14' style='width: 80px; height: 80px'/>
+
+<!--        <q-btn label='body' @click='category=0' style='display: block'/>-->
+<!--        <q-btn label='hat' @click='category=1' style='display: block'/>-->
+<!--        <q-btn label='hair' @click='category=2' style='display: block'/>-->
 
 
-        <q-btn label='eyes' @click='category=3' style='display: block'/>
-        <q-btn label='glasess' @click='category=4' style='display: block'/>
-        <q-btn label='flush' @click='category=5' style='display: block'/>
-        <q-btn label='mouth' @click='category=6' style='display: block'/>
-        <q-btn label='shirts' @click='category=7' style='display: block'/>
-        <q-btn label='pants' @click='category=8' style='display: block'/>
-        <q-btn label='onePiece' @click='category=9' style='display: block'/>
-        <q-btn label='lHand' @click='category=10' style='display: block'/>
-        <q-btn label='rHand' @click='category=11' style='display: block'/>
-        <q-btn label='shoes' @click='category=12' style='display: block'/>
-        <q-btn label='wing' @click='category=13' style='display: block'/>
-        <q-btn label='background' @click='category=14' style='display: block'/>
+<!--        <q-btn label='eyes' @click='category=3' style='display: block'/>-->
+<!--        <q-btn label='glasess' @click='category=4' style='display: block'/>-->
+<!--        <q-btn label='flush' @click='category=5' style='display: block'/>-->
+<!--        <q-btn label='mouth' @click='category=6' style='display: block'/>-->
+<!--        <q-btn label='shirts' @click='category=7' style='display: block'/>-->
+<!--        <q-btn label='pants' @click='category=8' style='display: block'/>-->
+<!--        <q-btn label='onePiece' @click='category=9' style='display: block'/>-->
+<!--        <q-btn label='lHand' @click='category=10' style='display: block'/>-->
+<!--        <q-btn label='rHand' @click='category=11' style='display: block'/>-->
+<!--        <q-btn label='shoes' @click='category=12' style='display: block'/>-->
+<!--        <q-btn label='wing' @click='category=13' style='display: block'/>-->
+<!--        <q-btn label='background' @click='category=14' style='display: block'/>-->
 
 <!--        카테고리 수만큼 반복-->
       </div>

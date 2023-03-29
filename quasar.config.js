@@ -91,11 +91,10 @@ module.exports = configure(function (/* ctx */) {
           // you need to set i18n resource including paths !
           include: path.resolve(__dirname, './src/i18n/**')
         }]
-      ]
-
+      ],
 
       // hs add
-      // env: process.env.NODE_ENV === 'production' ? require('dotenv').config().parsed : require('dotenv').config({path: `${__dirname}/../contract/neardev/dev-account.env`}).parsed,
+      env: process.env.NODE_ENV === 'production' ? require('dotenv').config().parsed : require('dotenv').config({path: `${__dirname}/.env`}).parsed,
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
