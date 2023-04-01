@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { computed, reactive, toRefs, watch } from 'vue';
-
+import { wallet } from 'boot/near-wallet'
 const CONTRACT_ADDRESS = process.env.CONTRACT_NAME;
 export const useWsStore = defineStore('wsStore', () => {
 
@@ -11,18 +11,18 @@ export const useWsStore = defineStore('wsStore', () => {
 
     let ws: WebSocket | null = null;
 
-    const wsOnOpen = async (event) => {
+    const wsOnOpen = async (event: any) => {
       console.log('WebSocket 연결 성공');
     };
 
     const waitOpen = async () => {
       return new Promise((resolve, reject) => {
         if (ws && ws.readyState === WebSocket.OPEN) {
-          resolve();
+          resolve('');
         } else {
           const intervalId = setInterval(() => {
             if (ws && ws.readyState === WebSocket.OPEN) {
-              resolve();
+              resolve('');
               clearInterval(intervalId);
             }
           }, 200);
@@ -30,7 +30,7 @@ export const useWsStore = defineStore('wsStore', () => {
       });
     };
 
-    const wsOnMessage = async (event) => {
+    const wsOnMessage = async (event: any) => {
       try {
         console.log('data!!!:??', event.data)
         // console.log('binaryData:??', event.binaryData)
@@ -50,13 +50,17 @@ export const useWsStore = defineStore('wsStore', () => {
             const tokenRandId = dataJson.content.tokenRandId;
             const tokenId = dataJson.content.tokenId;
 
+            // , gas: wallet.parseNearAmount('0.01')
+            const callResult = await wallet.callMethod({ contractId: CONTRACT_ADDRESS, method: 'create_reservation', args: { token_id: tokenRandId }, deposit: wallet.parseNearAmount('20')});
+            console.log('callResult::', callResult)
+
             // ctos_reservation
             const msg = { type: 'message', msg: 'ctos_reservation', content: { tokenId, tokenRandId } };
             const msgStr = JSON.stringify(msg);
 
             console.log('msgStr:', msgStr);
 
-            ws.send(msgStr);
+            // ws.send(msgStr);
             // dataJson.content.tokenRandId
             break;
         }
@@ -67,10 +71,10 @@ export const useWsStore = defineStore('wsStore', () => {
       }
     };
 
-    const wsOnClose = async (event) => {
+    const wsOnClose = async (event: any) => {
       console.log(event);
     };
-    const wsOnError = async (event) => {
+    const wsOnError = async (event: any) => {
       console.log(event);
     };
 
@@ -95,7 +99,7 @@ export const useWsStore = defineStore('wsStore', () => {
     };
 
     type WsMsg = { type: string, msg: string, content: any }
-    const getTokenId = async (coordination) => {
+    const getTokenId = async (coordination: any) => {
       try {
         if (ws === null || ws.readyState !== WebSocket.OPEN) {
           await connect();
@@ -104,7 +108,7 @@ export const useWsStore = defineStore('wsStore', () => {
         const wsMsg: WsMsg = { type: 'message', msg: 'ctos_getToken', content: coordination };
         const wsMsgStr = JSON.stringify(wsMsg);
         console.log('wsMsgStr??', wsMsgStr)
-        ws.send(wsMsgStr);
+        ws!.send(wsMsgStr);
         console.log('gg');
       } catch (e) {
         throw e;
@@ -120,15 +124,6 @@ export const useWsStore = defineStore('wsStore', () => {
     return {
       ...toRefs(state), getTokenId, reservation
     };
-  }, {
-    persist: {
-      key: 'wsStore',
-      storage: {
-        getItem: (key) => ls.get(key),
-        setItem: (key, value) => ls.set(key, value)
-      },
-      paths: ['']
-    }
   }
 );
 // export const useCounterStore = defineStore('counter', {

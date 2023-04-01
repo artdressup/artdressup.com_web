@@ -2,7 +2,7 @@ import {boot} from 'quasar/wrappers'
 
 // "async" is optional;
 // more info on params: https://v2.quasar.dev/quasar-cli/boot-files
-import {providers} from 'near-api-js';
+import {providers, utils} from 'near-api-js';
 
 import NearIconUrl from '@near-wallet-selector/near-wallet/assets/near-wallet-icon.png';
 import MyNearIconUrl from '@near-wallet-selector/my-near-wallet/assets/my-near-wallet-icon.png';
@@ -157,40 +157,71 @@ class NWallet {
 
   // Call a method that changes the contract's state
   async callMethod({contractId, method, args = {}, gas = THIRTY_TGAS, deposit = NO_DEPOSIT}: any) {
-    if (this.wallet !== null && this.accountId !== null) {
-      // Sign a transaction with the "FunctionCall" action
-      const outcome = await this.wallet.signAndSendTransaction({
-        signerId: this.accountId!,
-        receiverId: contractId,
-        actions: [
-          {
-            type: 'FunctionCall',
-            params: {
-              methodName: method,
-              args,
-              gas,
-              deposit,
+    try {
+      if (this.wallet !== null && this.accountId !== null) {
+        // Sign a transaction with the "FunctionCall" action
+        const outcome = await this.wallet.signAndSendTransaction({
+          signerId: this.accountId!,
+          receiverId: contractId,
+          actions: [
+            {
+              type: 'FunctionCall',
+              params: {
+                methodName: method,
+                args,
+                gas,
+                deposit,
+              },
             },
-          },
-        ],
-      });
-
-      return providers.getTransactionLastResult(outcome!)
+          ],
+        });
+        return providers.getTransactionLastResult(outcome!)
+      }
+      return null
+    } catch (e) {
+      console.log('callMethodErr:', e)
     }
-    return null
   }
 
   async testCallMethod1() {
-    const result = await this.callMethod({ contractId: CONTRACT_ADDRESS, method: 'create_reservation', args: { token_id: 'hello123token123' }, deposit: 20 });
-    console.log('testCallMethod1 Result::', result)
+    try {
+      const result = await this.callMethod({ contractId: CONTRACT_ADDRESS, method: 'create_reservation', args: { token_id: 'hello123token12344567' }, deposit: wallet.parseNearAmount('20') });
+      console.log('testCallMethod1 Result::', result)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  async testCallMethod2() {
+    try {
+      const result = await this.callMethod({ contractId: CONTRACT_ADDRESS, method: 'del_nft', args: { token_id: 'hello123token12344567' }, gas: '300000000000000'});
+      console.log('testCallMethod1 Result::', result)
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   async testViewMethod1() {
-    const result = await this.viewMethod({ contractId: CONTRACT_ADDRESS, method: 'get_reservations', args: { token_id: 'hello123token123' }});
-    if (result !== null) {
-      console.log('testViewMethod1:', result)
-    } else {
-      console.log('testViewMethod1 result is null')
+    try {
+      const result = await this.viewMethod({ contractId: CONTRACT_ADDRESS, method: 'get_reservations', args: { account_id: 'hsyang.testnet' }});
+      if (result !== null) {
+        console.log('testViewMethod1:', result)
+      } else {
+        console.log('testViewMethod1 result is null')
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  parseNearAmount(nearAmount: string) {
+    try {
+      const deposit = utils.format.parseNearAmount(nearAmount)
+      console.log('deposit::', deposit)
+      return deposit
+    } catch (e) {
+      console.error('parseNearAmount err:', e)
+      throw e
     }
   }
 

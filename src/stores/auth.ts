@@ -5,11 +5,11 @@ import SecureLS from "secure-ls";
 
 const ls = new SecureLS({isCompression: false})
 
-import {NWallet} from "boot/near-wallet";
+import {wallet} from "boot/near-wallet";
 
 const CONTRACT_ADDRESS = process.env.CONTRACT_NAME;
 export const useAuthStore = defineStore('authStore', () => {
-    const wallet = new NWallet({createAccessKeyFor: CONTRACT_ADDRESS!, network: 'testnet'})
+    // const wallet = new NWallet({createAccessKeyFor: CONTRACT_ADDRESS!, network: 'testnet'})
 
     const state = reactive({
       isSignedIn: wallet.isSignIn,
@@ -79,6 +79,11 @@ export const useAuthStore = defineStore('authStore', () => {
       const currentGreeting = await wallet.viewMethod({method: 'get_greeting', contractId: CONTRACT_ADDRESS});
       console.log('fetchGreeting:' + currentGreeting)
       return currentGreeting
+    }
+
+    const nft_reservation = async (token_id: string) => {
+      const result = await wallet.callMethod({ contractId: CONTRACT_ADDRESS, method: 'create_reservation', args: { token_id: token_id }, deposit: 20 });
+      console.log('nft_reservation Result::', result)
     }
 
     return {
