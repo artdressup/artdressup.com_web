@@ -1,7 +1,8 @@
 <template>
 
   <div class='q-pa-md row'>
-    <div class='col'>
+    <div class='gt-sm col'>
+      <img src='icons/icon.png' style='width: 30px; height: 30px' @click='$router.push("/")'/>
 <!--      <q-btn label='test call' @click='test1' />-->
 <!--      <q-btn label='test view' @click='test2' />-->
 <!--      <q-btn label='getToken' @click='getTokenId' />-->
@@ -19,11 +20,15 @@
            data-ad-slot='7702004195'></ins>
 
     </div>
-    <div class='col' style='background-color: red'>
+    <div class='col'>
+      <div style='height: 10vh'></div>
       <canvas ref='canvas1' width='512' height='512'></canvas>
     </div>
     <div class='col'>
-      <DressRoom width='10px' height='10px' />
+      <div class='row justify-end'>
+        <q-btn label='signIn' @click='signIn' />
+      </div>
+      <DressRoom width='2vw' height='2vw' />
     </div>
   </div>
 </template>
@@ -43,17 +48,7 @@ export default defineComponent({
   name: 'MakerPage',
   components: { DressRoom },
   async mounted() {
-    // const canvas = this.$refs.canvas;
-    // const context = canvas.getContext('2d')
-    //
-    // const myimg = await loadImage(this.getPath('body_0001'))
-    // const myimg2 = await loadImage(this.getPath('eyes_0001'))
-    //
-    // context.fillStyle = '#ff0000'
-    // context.fillRect(0, 0, 512, 512)
-    // context.drawImage(myimg, 0, 0, 512, 512)
-    // context.drawImage(myimg2, 0, 0, 512, 512)
-
+    // ads
     (adsbygoogle = window.adsbygoogle || []).push({});
 
 
@@ -323,6 +318,10 @@ export default defineComponent({
 
     };
 
+    const signIn = () => {
+      $authStore.signIn()
+    }
+
     return {
       viewtest,
       calltest,
@@ -337,7 +336,8 @@ export default defineComponent({
       getTokenId,
       test1,
       test2,
-      gettoken
+      gettoken,
+      signIn
     };
   }
 });

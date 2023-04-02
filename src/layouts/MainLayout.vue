@@ -8,7 +8,7 @@
           <b>Art Dress Up</b>
         </q-toolbar-title>
 
-        <q-btn label='sign in' @click='signIn' />
+<!--        <q-btn label='sign in' @click='signIn' />-->
         <q-btn
           flat
           dense
@@ -74,9 +74,9 @@ export default defineComponent({
     const leftDrawerOpen = ref(false);
     const $authStore = useAuthStore();
 
-    const signIn = () => {
-      $authStore.signIn()
-    }
+    // const signIn = () => {
+    //   $authStore.signIn()
+    // }
 
     return {
       essentialLinks: linksList,
@@ -84,7 +84,7 @@ export default defineComponent({
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },
-      signIn,
+      // signIn,
     };
   }
 });

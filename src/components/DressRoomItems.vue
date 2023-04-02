@@ -1,7 +1,7 @@
 <template>
   <template v-for='url in urls' :key='url'>
     <div class='box'>
-      <img class='fit' :src='url' @click='choice(url)' />
+      <img class='fit' :src='url' @click='choice(url)' style='padding: 0; margin: 0'/>
     </div>
   </template>
 </template>
@@ -9,7 +9,6 @@
 <script>
 import { defineComponent, reactive } from 'vue';
 import { useMakerStore } from 'stores/maker';
-import { createCanvas, loadImage } from 'canvas';
 
 export default defineComponent({
   name: 'DressRoomItems',
@@ -40,9 +39,13 @@ export default defineComponent({
 <style lang='sass'>
 .box
   width: 33%
-  border: solid 1px
-  border-color: red
+  //border: solid 1px
+  //border-color: red
   display: inline-block
-  box-shadow: 0 25px 30px #00000029
+  padding: 0
+  margin: 0
+
+.blue
+  border: 1px solid blue
 
 </style>

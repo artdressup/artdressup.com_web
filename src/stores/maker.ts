@@ -473,9 +473,15 @@ export const useMakerStore = defineStore('makerStore', () => {
     } else if (name.includes('shirts_')) {
       dressroomChoice.value.shirts = name;
       choiceObj['shirts'] = num
+
+      dressroomChoice.value.onePiece = '';
+      delete choiceObj['onePiece']
     } else if (name.includes('pants_')) {
       dressroomChoice.value.pants = name;
       choiceObj['pants'] = num
+
+      dressroomChoice.value.onePiece = '';
+      delete choiceObj['onePiece']
     } else if (name.includes('onePiece_')) {
       if (dressroomChoice.value.onePiece === name) {
         dressroomChoice.value.onePiece = '';

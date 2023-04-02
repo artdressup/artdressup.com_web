@@ -1,22 +1,23 @@
 <template>
-  <div>
-    Hmm..
+  <div class='main'>
     <div class='lt-sm'>
-      lt-sm
+<!--      작은화면-->
+      <video autoplay loop>
+        <source src='https://cdn.artdressup.com/web/main.mp4' type='video/mp4'>
+      </video>
     </div>
+
     <div class='gt-xs'>
+<!--      큰화면-->
       gt-xs
+      <video autoplay loop>
+        <source src='https://cdn.artdressup.com/web/main.mp4' type='video/mp4'>
+      </video>
+
     </div>
-    <div class='row'>
-      <div class='col'></div>
-      <div class='col'></div>
-      <div class='col'>
-<!--        <DressRoom width='10px' height='10px'/>-->
-      </div>
-    </div>
-<!--    <div ref='canvasContainer'>-->
-<!--      <canvas ref='renderCanvas'></canvas>-->
-<!--    </div>-->
+    <!--    <div ref='canvasContainer'>-->
+    <!--      <canvas ref='renderCanvas'></canvas>-->
+    <!--    </div>-->
   </div>
 </template>
 
@@ -97,3 +98,9 @@ export default defineComponent({
   }
 });
 </script>
+
+<style lang='sass'>
+.main
+  background-color: black
+  height: 99vh
+</style>
