@@ -2,45 +2,73 @@
 
   <div class='q-pa-md row'>
     <div class='gt-sm col'>
-      <img src='icons/icon.png' style='width: 30px; height: 30px' @click='$router.push("/")'/>
-<!--      <q-btn label='test call' @click='test1' />-->
-<!--      <q-btn label='test view' @click='test2' />-->
-<!--      <q-btn label='getToken' @click='getTokenId' />-->
-<!--      <q-btn label='calltest' @click='calltest' />-->
-<!--      <q-btn label='delnft' @click='calltest2' />-->
-<!--      <q-btn label='viewtest' @click='viewtest' />-->
-<!--      <q-btn label='gettoken' @click='gettoken' />-->
-<!--      {{ tokenId }}-->
+      <img src='icons/icon.png' style='width: 30px; height: 30px' @click='$router.push("/")' />
+      <!--      <q-btn label='test call' @click='test1' />-->
+      <!--      <q-btn label='test view' @click='test2' />-->
+      <!--      <q-btn label='getToken' @click='getTokenId' />-->
+      <!--      <q-btn label='calltest' @click='calltest' />-->
+      <!--      <q-btn label='delnft' @click='calltest2' />-->
+      <!--      <q-btn label='viewtest' @click='viewtest' />-->
+      <!--      <q-btn label='gettoken' @click='gettoken' />-->
+      <!--      {{ tokenId }}-->
 
-      <ins class='adsbygoogle'
-           style='display:block; text-align:center;'
-           data-ad-layout='in-article'
-           data-ad-format='fluid'
-           data-ad-client='ca-pub-5697765693347887'
-           data-ad-slot='7702004195'></ins>
+      <!--      <ins class='adsbygoogle'-->
+      <!--           style='display:block; text-align:center;'-->
+      <!--           data-ad-layout='in-article'-->
+      <!--           data-ad-format='fluid'-->
+      <!--           data-ad-client='ca-pub-5697765693347887'-->
+      <!--           data-ad-slot='7702004195'></ins>-->
 
     </div>
     <div class='col'>
       <div style='height: 10vh'></div>
-      <canvas ref='canvas1' width='512' height='512'></canvas>
+      <div class='row justify-center'>
+        <canvas ref='canvas1' width='512' height='512' style='display: block'></canvas>
+      </div>
+
+      <div class='row justify-center'>
+        <q-btn v-if='authStore.isSignIn' label='NFT Reservation' style='display: block' @click='nftReservation'/>
+        <q-btn v-if='authStore.isSignIn' label='Get Reservation' style='display: block' @click='getReservation'/>
+      </div>
+
+      <template v-for='token_id in makerStore.reservations' :key='token_id'>
+        <div>{{token_id}} <q-btn label='mint' @click='nftMint(token_id)'/> </div>
+      </template>
+
+<!--      <q-btn label='test' @click='test' />-->
+<!--      <q-btn label='test2' @click='test2' />-->
+
     </div>
     <div class='col'>
-      <div class='row justify-end'>
-        <q-btn label='signIn' @click='signIn' />
+      <div class='row justify-end' style='height: 5vh'>
+        <!--        <q-btn label='hello'/>-->
+<!--        {{getAccountId()}}-->
+
+<!--        <q-btn label='gettoken' @click='getTokenId' />-->
+
+        <q-badge v-if='authStore.isSignIn' color="orange" :label=authStore.accountId />
+        <q-btn v-if='authStore.isSignIn' label='signOut' @click='signOut' />
+        <q-btn v-else label='signIn' @click='signIn' />
+
+        <q-badge color='blue'>
+          TESTNET
+        </q-badge>
+
+        <DressRoom width='2vw' height='2vw' />
       </div>
-      <DressRoom width='2vw' height='2vw' />
     </div>
   </div>
 </template>
 
 <script>
-import { defineComponent, ref, reactive, toRef, watch } from 'vue';
+import { defineComponent, ref, reactive, toRef, watch, computed } from 'vue';
 import { useMakerStore } from 'stores/maker';
 import { useAuthStore } from 'stores/auth';
-import { useWsStore } from '../stores/websocket';
+// import { useWsStore } from '../stores/websocket';
 import { createCanvas, loadImage } from 'canvas';
 import { wallet } from 'src/boot/near-wallet.ts';
 import { api } from 'boot/axios';
+import { useQuasar } from 'quasar';
 
 import DressRoom from 'components/DressRoom.vue';
 
@@ -49,7 +77,7 @@ export default defineComponent({
   components: { DressRoom },
   async mounted() {
     // ads
-    (adsbygoogle = window.adsbygoogle || []).push({});
+    // (adsbygoogle = window.adsbygoogle || []).push({});
 
 
     const canvas = this.$refs.canvas1;
@@ -78,29 +106,26 @@ export default defineComponent({
 
   },
   setup() {
-    const canvasRef = ref(null);
     const context1 = ref(null);
-    const $makerStore = useMakerStore();
-    const $authStore = useAuthStore();
-    const $wsStore = useWsStore();
+    const makerStore = useMakerStore();
+    const authStore = useAuthStore();
+    const choice = ref(makerStore.dressroomChoice);
+    const $q = useQuasar()
 
-    const choice = ref($makerStore.dressroomChoice);
+    makerStore.init();
 
     const state = reactive({
+      // isSignedIn: computed(() => $authStore.isSignedIn),
       canvas2: null,
-      tokenId: ''
+      tokenId: '',
     });
 
     const test1 = () => {
-      $authStore.testMethod1();
-    };
-
-    const test2 = () => {
-      $authStore.testMethod2();
+      authStore.testMethod1();
     };
 
     const getPath = (name) => {
-      return $makerStore.getPath(name);
+      return makerStore.getPath(name);
     };
 
     const cLoadImage = (num, url) => {
@@ -113,9 +138,9 @@ export default defineComponent({
       });
     };
 
-    watch(() => $makerStore.ttock, async (data1, before) => {
+    watch(() => makerStore.ttock, async (data1, before) => {
       console.log('watch??');
-      // const data = $makerStore.dressroomChoice;
+      // const data = makerStore.dressroomChoice;
       const promises = [];
 
       if (choice.value.background !== '') {
@@ -245,37 +270,15 @@ export default defineComponent({
     //   data.
     // }
 
-    const getTokenId = async () => {
-      const choiceObj = $makerStore.choiceObj;
-      console.log('choiceObj::', JSON.stringify(choiceObj));
-      $wsStore.getTokenId(choiceObj);
+    const getTokenId = () => {
+      const accountId = authStore.accountId;
+      if (accountId === null) {
+        return null
+      }
+      const tokenId = makerStore.getTestnetTokenId(accountId);
+      console.log('tokenId::::', tokenId);
+      return tokenId
     };
-
-    const image2 = async () => {
-      // const canvas1 = canvasRef.value;
-      const myimg = await loadImage(getPath('body_0000'));
-      const myimg2 = await loadImage(getPath('eyes_0001'));
-      const myimg3 = await loadImage(getPath('shirts_0000'));
-      const myimg4 = await loadImage(getPath('pants_0000'));
-      const myimg5 = await loadImage(getPath('hair_0000'));
-      const myimg6 = await loadImage(getPath('shoes_0000'));
-
-
-      context1.value.drawImage(myimg, 0, 0, 512, 512);
-      context1.value.drawImage(myimg2, 0, 0, 512, 512);
-
-      context1.value.drawImage(myimg3, 0, 0, 512, 512);
-      context1.value.drawImage(myimg4, 0, 0, 512, 512);
-
-      context1.value.drawImage(myimg5, 0, 0, 512, 512);
-      context1.value.drawImage(myimg6, 0, 0, 512, 512);
-
-    };
-
-    const clearRect = async () => {
-      context1.value.clearRect(0, 0, 512, 512);
-    };
-
 
     const calltest = async () => {
       const result = await wallet.testCallMethod1();
@@ -317,9 +320,149 @@ export default defineComponent({
         });
 
     };
+    const getAccountId = () => {
+      return authStore.getAccountId()
+    }
+
+    const accountId = ref(getAccountId())
+
+    // const isSignedIn = () => {
+    //   return authStore.isSignedIn()
+    // }
 
     const signIn = () => {
-      $authStore.signIn()
+      authStore.signIn();
+    };
+
+    const signOut = () => {
+      authStore.signOut();
+    };
+
+    const nftReservation = async () => {
+      if (authStore.isSignIn === false) {
+        signIn()
+      } else {
+        const tokenId = getTokenId()
+        const result = await authStore.create_reservation(tokenId)
+        console.log('nftReservation result::', result)
+      }
+    }
+
+    const getReservation = async () => {
+      if (authStore.isSignIn === false) {
+        signIn()
+      } else {
+        const tokenId = getTokenId()
+        const result = await authStore.get_reservation()
+        const reservations = []
+        for (const obj of result) {
+          reservations.push(obj.token_id)
+          // console.log(obj.token_id)
+        }
+        makerStore.reservations = reservations
+        // console.log('nftReservation result::', result)
+      }
+    }
+
+    const nftMint = async (token_id) => {
+      try {
+        const choiceStr = makerStore.getTestnetChoiceStr(token_id)
+        if (choiceStr === undefined) {
+          throw new Error('nftMint choiceStr is undefined')
+        }
+        const choiceObj = JSON.parse(choiceStr)
+        const account_id = authStore.accountId
+        const data = {
+          account_id,
+          token_id,
+          coordination: choiceObj
+        }
+
+        const notif = $q.notify({
+          type: 'ongoing',
+          message: 'Creating NFTs.'
+        })
+
+        // simulate delay
+        // setTimeout(() => {
+        //   notif({
+        //     type: 'positive',
+        //     message: 'Found the results that you were looking for',
+        //     timeout: 1000
+        //   })
+        // }, 4000)
+
+        api.post('/getnft', data).then(response => {
+          console.log(response.data);
+          console.log(response.data.transaction_hash);
+
+          notif({
+            type: 'positive',
+            message: `Check out the NFT. tx_id:${response.data.transaction_hash}`,
+            timeout: 1000
+          })
+        })
+
+      } catch (e) {
+        console.error(`nftMint Error: ${e}`)
+      }
+      /*
+      *
+      *
+      const data = {
+        account_id: 'hsyang.testnet',
+        token_id: 'hello123token12344567',
+        coordination: {
+          body: 1,
+          hair: 1,
+          eyes: 1,
+          shirts: 1,
+          pants: 1,
+          shoes: 0
+        }
+      };
+
+      api.post('/getnft', data).then(response => {
+        console.log(response.data);
+        console.log(response.data.hello);
+      })
+
+        .catch(err => {
+          console.log(err);
+        });
+
+      * */
+
+      // api.post('/getnft', )
+    }
+
+    // const isSignIn = () => {
+    //   return $authStore.isSignedIn;
+    // };
+    const test = () => {
+      // makerStore.TokenObj();
+      const aa = makerStore.getTokenObj3;
+      console.log(JSON.stringify(aa))
+      // $q.notify('Message')
+
+      const notif = $q.notify({
+          type: 'ongoing',
+          message: 'Looking up the search terms...'
+        })
+
+        // simulate delay
+        setTimeout(() => {
+          notif({
+            type: 'positive',
+            message: 'Found the results that you were looking for',
+            timeout: 1000
+          })
+        }, 4000)
+
+    }
+
+    const test2 = () => {
+      makerStore.TestABC();
     }
 
     return {
@@ -327,17 +470,24 @@ export default defineComponent({
       calltest,
       calltest2,
       getPath,
-      image2,
-      canvasRef,
       context1,
-      clearRect,
       ...toRef(state),
 
       getTokenId,
       test1,
-      test2,
       gettoken,
-      signIn
+      signIn,
+      signOut,
+      getAccountId,
+      // isSignedIn,
+      accountId,
+      authStore,
+      makerStore,
+      nftReservation,
+      getReservation,
+      nftMint,
+      test,
+      test2
     };
   }
 });

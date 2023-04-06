@@ -101,9 +101,14 @@ class NWallet {
     return this.walletSelector
   }
 
+  getAccountId() {
+    return this.accountId
+  }
+
   signIn() {
     console.log('nw-signIn 01')
     console.log('isSignedIn(): ' + this.walletSelector?.isSignedIn())
+    console.log('accountId:::', this.accountId)
     if (!this.isSignIn) {
       if (this.modal === null) {
         console.log('modal is null')
@@ -113,15 +118,17 @@ class NWallet {
     }
   }
 
-  signOut() {
+  async signOut() {
     console.log('nw-signOut 01')
     console.log('isSignedIn(): ' + this.walletSelector?.isSignedIn())
+    console.log('signOut AccountId', this.accountId)
     if (this.isSignIn) {
       if (this.wallet === null) {
         console.log('wallet is null')
         console.log(this.accountId)
       }
-      this.wallet?.signOut();
+      await this.wallet?.signOut();
+      this.accountId = null
       console.log('nw-signOut 02')
     }
   }
@@ -181,6 +188,65 @@ class NWallet {
     } catch (e) {
       console.log('callMethodErr:', e)
     }
+  }
+
+  // nft 예약 생성
+  async test_create_reservation(token_id: string) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const accountId = this.accountId
+        if (accountId === null) {
+          throw new Error('Unable to get account id.')
+        }
+
+        const result = await this.callMethod({ contractId: CONTRACT_ADDRESS, method: 'create_reservation', args: { token_id: token_id }, deposit: wallet.parseNearAmount('20') });
+        console.log('test_create_reservation Result::', result)
+        resolve(reject)
+      } catch (e) {
+        console.log(e)
+        reject(e)
+      }
+    })
+  }
+
+  async test_get_reservations() {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const accountId = this.accountId
+        if (accountId === null) {
+          throw new Error('Unable to get account id.')
+        }
+        const result = await this.viewMethod({ contractId: CONTRACT_ADDRESS, method: 'get_reservations', args: { account_id: 'hsyang.testnet' }});
+        if (result !== null) {
+          console.log('test_get_reservations:', result)
+        } else {
+          console.log('test_get_reservations result is null')
+        }
+        resolve(result)
+      } catch (e) {
+        console.log(e)
+        reject(e)
+      }
+    })
+  }
+
+  // nft 소각
+  async test_del_nft(token_id: string) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const accountId = this.accountId
+        if (accountId === null) {
+          throw new Error('Unable to get account id.')
+        }
+
+        const result = await this.callMethod({ contractId: CONTRACT_ADDRESS, method: 'del_nft', args: { token_id: token_id }, gas: '300000000000000'});
+        console.log('test_del_nft Result::', result)
+        resolve(result)
+      } catch (e) {
+        console.log(e)
+        reject(e)
+      }
+    })
   }
 
   async testCallMethod1() {
@@ -254,12 +320,17 @@ class NWallet {
 // })
 
 const wallet = new NWallet({createAccessKeyFor: CONTRACT_ADDRESS!, network: 'testnet'})
+// wallet.startUp()
+
 export default boot(async ({app}) => {
   // something to do
 
   // ^ ^ ^ this will allow you to use this.$api (for Vue Options API form)
   //       so you can easily perform requests against your app's API
   app.config.globalProperties.$wallet = wallet;
+  // await wallet.startUp()
+  // console.log('boot wallet.startUp!!')
 })
 
-export {NWallet, wallet };
+
+export { wallet };
