@@ -4436,11 +4436,6 @@ pinia-plugin-persist@^1.0.0:
   dependencies:
     vue-demi "^0.12.1"
 
-pinia-plugin-persistedstate@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/pinia-plugin-persistedstate/-/pinia-plugin-persistedstate-3.1.0.tgz#eada2b61ecd478fce88e490a685210415cd7a1b4"
-  integrity sha512-8UN+vYMEPBdgNLwceY08mi5olI0wkYaEb8b6hD6xW7SnBRuPydWHlEhZvUWgNb/ibuf4PvufpvtS+dmhYjJQOw==
-
 pinia@^2.0.11:
   version "2.0.33"
   resolved "https://registry.yarnpkg.com/pinia/-/pinia-2.0.33.tgz#b70065be697874d5824e9792f59bd5d87ddb5e7d"

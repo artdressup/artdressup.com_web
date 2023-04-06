@@ -28,7 +28,6 @@
     "near-api-js": "^1.1.0",
     "pinia": "^2.0.11",
     "pinia-plugin-persist": "^1.0.0",
-    "pinia-plugin-persistedstate": "^3.1.0",
     "quasar": "^2.6.0",
     "secure-ls": "^1.2.6",
     "vue": "^3.0.0",
