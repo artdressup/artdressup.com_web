@@ -12,7 +12,7 @@
 // to match your app's branding.
 // Tip: Use the "Theme Builder" on Quasar's documentation website.
 
-$primary   : #0f0323;
+$primary   : rgb(23, 19, 51);
 $secondary : #26A69A;
 $accent    : #9C27B0;
 
@@ -23,3 +23,28 @@ $positive  : #21BA45;
 $negative  : #C10015;
 $info      : #31CCEC;
 $warning   : #F2C037;
+
+.adu-ff {
+  font-family: 'MyCustomFont', sans-serif;
+}
+
+.adu-ta-center {
+  text-align: center;
+}
+
+.adu-fw-bold {
+  font-weight: bold;
+}
+
+.adu-fs1 {
+  font-size: 1rem;
+  color: white;
+}
+.adu-fs2 {
+  font-size: 2rem;
+  color: white;
+}
+.adu-fs3 {
+  font-size: 3rem;
+  color: white;
+}

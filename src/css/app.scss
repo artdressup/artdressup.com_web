@@ -1,3 +1,8 @@
 // app global css in SCSS form
 @import '@near-wallet-selector/modal-ui/styles.css';
+@import 'aos/dist/aos.css';
 
+@font-face {
+  font-family: 'MyCustomFont';
+  src: url('fonts/GloriaHallelujah-Regular.ttf') format('truetype');
+}
