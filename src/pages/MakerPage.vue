@@ -1,17 +1,8 @@
 <template>
 
-  <div class='q-pa-md row'>
-    <div class='gt-sm col'>
+  <div class='q-pa-md gt-sm row'>
+    <div class='col'>
       <img src='icons/icon.png' style='width: 30px; height: 30px' @click='$router.push("/")' />
-      <!--      <q-btn label='test call' @click='test1' />-->
-      <!--      <q-btn label='test view' @click='test2' />-->
-      <!--      <q-btn label='getToken' @click='getTokenId' />-->
-      <!--      <q-btn label='calltest' @click='calltest' />-->
-      <!--      <q-btn label='delnft' @click='calltest2' />-->
-      <!--      <q-btn label='viewtest' @click='viewtest' />-->
-      <!--      <q-btn label='gettoken' @click='gettoken' />-->
-      <!--      {{ tokenId }}-->
-
       <!--      <ins class='adsbygoogle'-->
       <!--           style='display:block; text-align:center;'-->
       <!--           data-ad-layout='in-article'-->
@@ -27,26 +18,32 @@
       </div>
 
       <div class='row justify-center'>
-        <q-btn v-if='authStore.isSignIn' label='NFT Reservation' style='display: block' @click='nftReservation'/>
-        <q-btn v-if='authStore.isSignIn' label='Get Reservation' style='display: block' @click='getReservation'/>
+        <div v-if='makerStore.reservations.length > 0'>
+          <template v-for='token_id in makerStore.reservations' :key='token_id'>
+            <q-btn label='recieve' @click='nftMint(token_id)'>
+              <q-tooltip>
+                token_id: {{token_id}}
+              </q-tooltip>
+            </q-btn>
+          </template>
+        </div>
+        <div v-else>
+          <q-btn label='mint' @click='nftReservation' />
+        </div>
       </div>
 
-      <template v-for='token_id in makerStore.reservations' :key='token_id'>
-        <div>{{token_id}} <q-btn label='mint' @click='nftMint(token_id)'/> </div>
-      </template>
-
-<!--      <q-btn label='test' @click='test' />-->
-<!--      <q-btn label='test2' @click='test2' />-->
+      <!--      <q-btn label='test' @click='test' />-->
+      <!--      <q-btn label='test2' @click='test2' />-->
 
     </div>
     <div class='col'>
       <div class='row justify-end' style='height: 5vh'>
         <!--        <q-btn label='hello'/>-->
-<!--        {{getAccountId()}}-->
+        <!--        {{getAccountId()}}-->
 
-<!--        <q-btn label='gettoken' @click='getTokenId' />-->
+        <!--        <q-btn label='gettoken' @click='getTokenId' />-->
 
-        <q-badge v-if='authStore.isSignIn' color="orange" :label=authStore.accountId />
+        <q-badge v-if='authStore.isSignIn' color='orange' :label=authStore.accountId />
         <q-btn v-if='authStore.isSignIn' label='signOut' @click='signOut' />
         <q-btn v-else label='signIn' @click='signIn' />
 
@@ -54,8 +51,51 @@
           TESTNET
         </q-badge>
 
-        <DressRoom width='2vw' height='2vw' />
       </div>
+
+      <DressRoom width='2vw' height='2vw' />
+
+    </div>
+  </div>
+
+
+  <div class='q-pa-md lt-md column'>
+    <div class='col row justify-start'>
+      <div class='col'>
+        <img src='icons/icon.png' style='width: 30px; height: 30px;' @click='$router.push("/")' />
+      </div>
+      <div class='col-auto self-end'>
+        <q-badge v-if='authStore.isSignIn' color='orange' :label=authStore.accountId />
+        <q-btn v-if='authStore.isSignIn' label='signOut' @click='signOut' />
+        <q-btn v-else label='signIn' @click='signIn' />
+      </div>
+    </div>
+    <div class='col'>
+      <div class='row justify-center' style='display: flex'>
+        <canvas ref='canvas2' width='320' height='320' style='display: block'></canvas>
+      </div>
+    </div>
+    <div v-if='authStore.isSignIn' class='col row justify-center q-pa-md'>
+
+      <div v-if='makerStore.reservations.length > 0'>
+        <template v-for='token_id in makerStore.reservations' :key='token_id'>
+          <q-btn label='recieve' @click='nftMint(token_id)'>
+            <q-tooltip>
+              token_id: {{token_id}}
+            </q-tooltip>
+          </q-btn>
+        </template>
+      </div>
+      <div v-else>
+        <q-btn label='mint' @click='nftReservation' />
+      </div>
+
+    </div>
+    <div class='col'>
+      <div class='row justify-center'>
+        <DressRoom class='col-auto' width='2vw' height='2vw' />
+      </div>
+
     </div>
   </div>
 </template>
@@ -76,48 +116,35 @@ export default defineComponent({
   name: 'MakerPage',
   components: { DressRoom },
   async mounted() {
-    // ads
     // (adsbygoogle = window.adsbygoogle || []).push({});
-
+    await this.getReservation();
 
     const canvas = this.$refs.canvas1;
     const context = canvas.getContext('2d');
     this.context1 = context;
 
+    const canvas2 = this.$refs.canvas2;
+    const context2 = canvas2.getContext('2d');
+    this.context2 = context2;
 
-    // 여기를 바꾸면 stores/makers.ts 에서 기본 선택 값으
-    // choiceObj,  dressroomChoice 객체의 초기값도 바꿔주어야 한다.
-    const myimg0 = await loadImage(this.getPath('body_0001'));
-    const myimg1 = await loadImage(this.getPath('hair_0001'));
-    const myimg2 = await loadImage(this.getPath('eyes_0001'));
-    const myimg3 = await loadImage(this.getPath('pants_0001'));
-    const myimg4 = await loadImage(this.getPath('shirts_0001'));
-    const myimg5 = await loadImage(this.getPath('shoes_0000'));
-
-    context.drawImage(myimg0, 0, 0);
-    context.drawImage(myimg1, 0, 0);
-    context.drawImage(myimg2, 0, 0);
-    context.drawImage(myimg3, 0, 0);
-    context.drawImage(myimg4, 0, 0);
-    context.drawImage(myimg5, 0, 0);
-
-    // const canvas2 = this.$refs.canvas2;
-    // this.context2 = canvas2.getContext('2d')
+    this.canvasRefresh1()
 
   },
   setup() {
+    console.log("setup!!!")
     const context1 = ref(null);
+    const context2 = ref(null);
     const makerStore = useMakerStore();
     const authStore = useAuthStore();
     const choice = ref(makerStore.dressroomChoice);
-    const $q = useQuasar()
+    const $q = useQuasar();
 
     makerStore.init();
 
     const state = reactive({
       // isSignedIn: computed(() => $authStore.isSignedIn),
       canvas2: null,
-      tokenId: '',
+      tokenId: ''
     });
 
     const test1 = () => {
@@ -138,12 +165,18 @@ export default defineComponent({
       });
     };
 
-    watch(() => makerStore.ttock, async (data1, before) => {
-      console.log('watch??');
-      // const data = makerStore.dressroomChoice;
-      const promises = [];
+    const canvasRefresh1 = async () => {
+      canvasRefresh(choice, context1, context2)
+    }
 
-      if (choice.value.background !== '') {
+    const canvasRefresh = async (choice, context1, context2) => {
+      const promises = [];
+      if (choice.value === undefined) {
+        console.log('choice.value 는 undefined다!!')
+
+      }
+
+      if (choice.value !== undefined && choice.value.background !== '') {
         const prom = cLoadImage(0, getPath(choice.value.background));
         promises.push(prom);
         // const img = await loadImage(getPath(choice.value.background))
@@ -257,8 +290,19 @@ export default defineComponent({
         for (const obj of results) {
           context1.value.drawImage(obj.image, 0, 0, 512, 512);
         }
+
+        context2.value.clearRect(0, 0, 512, 512);
+        for (const obj of results) {
+          context2.value.drawImage(obj.image, 0, 0, 512, 512, 0, 0, 320, 320);
+        }
       });
 
+    }
+
+    watch(() => makerStore.ttock, async (data1, before) => {
+      console.log('watch??');
+      await canvasRefresh(choice, context1, context2)
+      // const data = makerStore.dressroomChoice;
       // if (images.length > 0) {
       //   for (let i =0; i<images.length; i++) {
       //     context1.value.drawImage(images[i], 0, 0, 512, 512)
@@ -273,11 +317,11 @@ export default defineComponent({
     const getTokenId = () => {
       const accountId = authStore.accountId;
       if (accountId === null) {
-        return null
+        return null;
       }
       const tokenId = makerStore.getTestnetTokenId(accountId);
       console.log('tokenId::::', tokenId);
-      return tokenId
+      return tokenId;
     };
 
     const calltest = async () => {
@@ -321,10 +365,10 @@ export default defineComponent({
 
     };
     const getAccountId = () => {
-      return authStore.getAccountId()
-    }
+      return authStore.getAccountId();
+    };
 
-    const accountId = ref(getAccountId())
+    const accountId = ref(getAccountId());
 
     // const isSignedIn = () => {
     //   return authStore.isSignedIn()
@@ -340,48 +384,48 @@ export default defineComponent({
 
     const nftReservation = async () => {
       if (authStore.isSignIn === false) {
-        signIn()
+        signIn();
       } else {
-        const tokenId = getTokenId()
-        const result = await authStore.create_reservation(tokenId)
-        console.log('nftReservation result::', result)
+        const tokenId = getTokenId();
+        const result = await authStore.create_reservation(tokenId);
+        console.log('nftReservation result::', result);
       }
-    }
+    };
 
     const getReservation = async () => {
       if (authStore.isSignIn === false) {
-        signIn()
+        signIn();
       } else {
-        const tokenId = getTokenId()
-        const result = await authStore.get_reservation()
-        const reservations = []
+        const tokenId = getTokenId();
+        const result = await authStore.get_reservation();
+        const reservations = [];
         for (const obj of result) {
-          reservations.push(obj.token_id)
+          reservations.push(obj.token_id);
           // console.log(obj.token_id)
         }
-        makerStore.reservations = reservations
+        makerStore.reservations = reservations;
         // console.log('nftReservation result::', result)
       }
-    }
+    };
 
     const nftMint = async (token_id) => {
       try {
-        const choiceStr = makerStore.getTestnetChoiceStr(token_id)
+        const choiceStr = makerStore.getTestnetChoiceStr(token_id);
         if (choiceStr === undefined) {
-          throw new Error('nftMint choiceStr is undefined')
+          throw new Error('nftMint choiceStr is undefined');
         }
-        const choiceObj = JSON.parse(choiceStr)
-        const account_id = authStore.accountId
+        const choiceObj = JSON.parse(choiceStr);
+        const account_id = authStore.accountId;
         const data = {
           account_id,
           token_id,
           coordination: choiceObj
-        }
+        };
 
         const notif = $q.notify({
           type: 'ongoing',
           message: 'Creating NFTs.'
-        })
+        });
 
         // simulate delay
         // setTimeout(() => {
@@ -400,11 +444,11 @@ export default defineComponent({
             type: 'positive',
             message: `Check out the NFT. tx_id:${response.data.transaction_hash}`,
             timeout: 1000
-          })
-        })
+          });
+        });
 
       } catch (e) {
-        console.error(`nftMint Error: ${e}`)
+        console.error(`nftMint Error: ${e}`);
       }
       /*
       *
@@ -434,7 +478,7 @@ export default defineComponent({
       * */
 
       // api.post('/getnft', )
-    }
+    };
 
     // const isSignIn = () => {
     //   return $authStore.isSignedIn;
@@ -442,28 +486,28 @@ export default defineComponent({
     const test = () => {
       // makerStore.TokenObj();
       const aa = makerStore.getTokenObj3;
-      console.log(JSON.stringify(aa))
+      console.log(JSON.stringify(aa));
       // $q.notify('Message')
 
       const notif = $q.notify({
-          type: 'ongoing',
-          message: 'Looking up the search terms...'
-        })
+        type: 'ongoing',
+        message: 'Looking up the search terms...'
+      });
 
-        // simulate delay
-        setTimeout(() => {
-          notif({
-            type: 'positive',
-            message: 'Found the results that you were looking for',
-            timeout: 1000
-          })
-        }, 4000)
+      // simulate delay
+      setTimeout(() => {
+        notif({
+          type: 'positive',
+          message: 'Found the results that you were looking for',
+          timeout: 1000
+        });
+      }, 4000);
 
-    }
+    };
 
     const test2 = () => {
       makerStore.TestABC();
-    }
+    };
 
     return {
       viewtest,
@@ -471,6 +515,7 @@ export default defineComponent({
       calltest2,
       getPath,
       context1,
+      context2,
       ...toRef(state),
 
       getTokenId,
@@ -487,7 +532,8 @@ export default defineComponent({
       getReservation,
       nftMint,
       test,
-      test2
+      test2,
+      canvasRefresh1
     };
   }
 });

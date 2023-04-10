@@ -1,6 +1,9 @@
 <template>
   <template v-for='url in urls' :key='url'>
-    <div class='box'>
+    <div class='gt-sm dressroom-items-md'>
+      <img class='fit' :src='url' @click='choice(url)' style='padding: 0; margin: 0'/>
+    </div>
+    <div class='lt-md dressroom-items-sm'>
       <img class='fit' :src='url' @click='choice(url)' style='padding: 0; margin: 0'/>
     </div>
   </template>
@@ -37,6 +40,23 @@ export default defineComponent({
 </script>
 
 <style lang='sass'>
+.dressroom-items-sm
+  width: 20%
+  //border: solid 1px
+  //border-color: red
+  display: inline-block
+  padding: 0
+  margin: 0
+
+
+.dressroom-items-md
+  width: 25%
+  //border: solid 1px
+  //border-color: red
+  display: inline-block
+  padding: 0
+  margin: 0
+
 .box
   width: 33%
   //border: solid 1px

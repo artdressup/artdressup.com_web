@@ -84,8 +84,10 @@ export const useMakerStore = defineStore('makerStore', {
   },
   actions: {
     async init() {
+      console.log('init 매번 실행되나??')
       const res = await axios.get(`${this.cdn_url}dressroom.json`);
       if (res !== undefined && res.data !== undefined) {
+        console.log(res.data)
         this.dressroomMeta = res.data;
 
         for (const catName of this.dressroomCategory) {
