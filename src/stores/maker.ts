@@ -453,6 +453,7 @@ export const useMakerStore = defineStore('makerStore', {
         delete copiedObject['shirts']
         delete copiedObject['pants']
       }
+      // debug
 
       const choiceStr = JSON.stringify(copiedObject);
 
