@@ -3,7 +3,7 @@
     <!--    가로-->
     <div class='container row'>
       <div class='col-2' style='display: inline-block'>
-        <q-scroll-area ref='scrollArea' style='width:100px; height: 100vh;'>
+        <q-scroll-area ref='scrollArea' style='width:100px; height: 100vh;' :visible=false>
           <div style='height: 100px; background-color: #eee;'
                @mousedown='onMouseDown'
                @mousemove='onMouseMove'
@@ -105,7 +105,7 @@
   <div class='lt-md'>
     <!--    세로-->
     <div class='containerX row'>
-      <q-scroll-area ref='scrollArea' style='width: 100vw; height: 15vw; overflow-x: hidden'>
+      <q-scroll-area ref='scrollArea' style='width: 100vw; height: 15vw; overflow-x: hidden' :visible=false>
         <div class='scroll-content' style='height: 15vw; background-color: #eee; overflow-x: hidden'
              @mousedown='onMouseDown'
              @mousemove='onMouseMove'

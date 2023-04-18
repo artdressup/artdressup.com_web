@@ -84,7 +84,7 @@ export const useMakerStore = defineStore('makerStore', {
   },
   actions: {
     async init() {
-      console.log('init 매번 실행되나??')
+      console.log('maker store init start')
       const res = await axios.get(`${this.cdn_url}dressroom.json`);
       if (res !== undefined && res.data !== undefined) {
         console.log(res.data)
@@ -94,8 +94,8 @@ export const useMakerStore = defineStore('makerStore', {
           this.setCategoryUrls(catName);
         }
 
-        console.log('init 완료!?');
-        console.log(JSON.stringify(this.dressroomItems));
+        console.log('maker store init done');
+        // console.log(JSON.stringify(this.dressroomItems));
       }
     },
     getPath(name: string) {
@@ -445,7 +445,17 @@ export const useMakerStore = defineStore('makerStore', {
     },
 //   // 테스트넷에서 사용할 nft 토큰 아이디 ( 한 계정에 한해서 모든 조합 mint 해볼 수 있도록 )
     getTestnetTokenId (accountId: string) {
-      const choiceStr = JSON.stringify(this.choiceObj);
+      const choiceStr0 = JSON.stringify(this.choiceObj);
+      const copiedObject = JSON.parse(choiceStr0)
+
+      // 원피스가 있을 경우 상의/하의 제거
+      if (copiedObject['onePiece'] !== undefined) {
+        delete copiedObject['shirts']
+        delete copiedObject['pants']
+      }
+
+      const choiceStr = JSON.stringify(copiedObject);
+
       const tokenStr = `${choiceStr}${accountId}`;
       const hash = CryptoJS.SHA256(tokenStr);
       const tokenId = hash.toString(CryptoJS.enc.Hex);
@@ -469,6 +479,9 @@ export const useMakerStore = defineStore('makerStore', {
     },
     TestABC() {
       this.tokenObj['abc'] = 'helo??'
+    },
+    DelTokenObj(token_id: string) {
+      delete this.tokenObj[token_id];
     }
   },
   persist: {
@@ -481,3 +494,6 @@ export const useMakerStore = defineStore('makerStore', {
     ],
   }
 });
+
+const store = useMakerStore();
+store.init()

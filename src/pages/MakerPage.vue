@@ -1,7 +1,7 @@
 <template>
 
   <div class='q-pa-md gt-sm row'>
-    <div class='col'>
+    <div class='col-2'>
       <img src='icons/icon.png' style='width: 30px; height: 30px' @click='$router.push("/")' />
       <!--      <ins class='adsbygoogle'-->
       <!--           style='display:block; text-align:center;'-->
@@ -22,14 +22,16 @@
           <template v-for='token_id in makerStore.reservations' :key='token_id'>
             <q-btn label='recieve' @click='nftMint(token_id)'>
               <q-tooltip>
-                token_id: {{token_id}}
+                token_id: {{ token_id }}
               </q-tooltip>
             </q-btn>
           </template>
         </div>
         <div v-else>
-          <q-btn label='mint' @click='nftReservation' />
+          <q-btn v-if='authStore.isSignIn' label='mint' @click='nftReservation' />
         </div>
+
+<!--        <q-btn label='del res' @click='delReservation' />-->
       </div>
 
       <!--      <q-btn label='test' @click='test' />-->
@@ -81,13 +83,13 @@
         <template v-for='token_id in makerStore.reservations' :key='token_id'>
           <q-btn label='recieve' @click='nftMint(token_id)'>
             <q-tooltip>
-              token_id: {{token_id}}
+              token_id: {{ token_id }}
             </q-tooltip>
           </q-btn>
         </template>
       </div>
       <div v-else>
-        <q-btn label='mint' @click='nftReservation' />
+        <q-btn v-if='authStore.isSignIn' label='mint' @click='nftReservation' />
       </div>
 
     </div>
@@ -127,11 +129,11 @@ export default defineComponent({
     const context2 = canvas2.getContext('2d');
     this.context2 = context2;
 
-    this.canvasRefresh1()
+    this.canvasRefresh1();
 
   },
   setup() {
-    console.log("setup!!!")
+    console.log('makerPage setup!!!');
     const context1 = ref(null);
     const context2 = ref(null);
     const makerStore = useMakerStore();
@@ -139,7 +141,8 @@ export default defineComponent({
     const choice = ref(makerStore.dressroomChoice);
     const $q = useQuasar();
 
-    makerStore.init();
+    // authStore.init();
+    // makerStore.init();
 
     const state = reactive({
       // isSignedIn: computed(() => $authStore.isSignedIn),
@@ -166,13 +169,13 @@ export default defineComponent({
     };
 
     const canvasRefresh1 = async () => {
-      canvasRefresh(choice, context1, context2)
-    }
+      canvasRefresh(choice, context1, context2);
+    };
 
     const canvasRefresh = async (choice, context1, context2) => {
       const promises = [];
       if (choice.value === undefined) {
-        console.log('choice.value 는 undefined다!!')
+        console.log('choice.value 는 undefined다!!');
 
       }
 
@@ -297,11 +300,11 @@ export default defineComponent({
         }
       });
 
-    }
+    };
 
     watch(() => makerStore.ttock, async (data1, before) => {
       console.log('watch??');
-      await canvasRefresh(choice, context1, context2)
+      await canvasRefresh(choice, context1, context2);
       // const data = makerStore.dressroomChoice;
       // if (images.length > 0) {
       //   for (let i =0; i<images.length; i++) {
@@ -386,26 +389,61 @@ export default defineComponent({
       if (authStore.isSignIn === false) {
         signIn();
       } else {
-        const tokenId = getTokenId();
-        const result = await authStore.create_reservation(tokenId);
-        console.log('nftReservation result::', result);
+
+        $q.dialog({
+          title: 'Mint',
+          message: 'Do you create NFTs with your current images? The cost is 20 near coins.',
+          cancel: true,
+          persistent: true
+        }).onOk(async () => {
+          const tokenId = getTokenId();
+          const result = await authStore.create_reservation(tokenId);
+          console.log('nftReservation result::', result);
+        });
       }
     };
 
     const getReservation = async () => {
-      if (authStore.isSignIn === false) {
-        signIn();
-      } else {
+      console.log('getReservation')
+      if (authStore.isSignIn) {
         const tokenId = getTokenId();
         const result = await authStore.get_reservation();
-        const reservations = [];
-        for (const obj of result) {
-          reservations.push(obj.token_id);
-          // console.log(obj.token_id)
+        if (result !== undefined && result !== null) {
+          const reservations = [];
+          for (const obj of result) {
+            reservations.push(obj.token_id);
+            // console.log(obj.token_id)
+          }
+          makerStore.reservations = reservations;
+        } else {
+          makerStore.reservations = [];
+
+          console.log('getReservation.. ?? else ?? 1234')
         }
-        makerStore.reservations = reservations;
-        // console.log('nftReservation result::', result)
+        console.log('getReservation result:', result);
+      } else {
+        console.log('getReservation.. ?? else ??')
       }
+    };
+
+    const delReservation = async () => {
+
+      const account_id = 'hsyang.testnet';
+      const data = {
+        account_id,
+        testkey: 'abc123cba321!@'
+      };
+      // abc123cba321!@
+      api.post('/delres', data).then(response => {
+        console.log(response.data);
+        // console.log(response.data.transaction_hash);
+
+        // notif({
+        //   type: 'positive',
+        //   message: `Check out the NFT. tx_id:${response.data.transaction_hash}`,
+        //   timeout: 1000
+        // });
+      });
     };
 
     const nftMint = async (token_id) => {
@@ -439,12 +477,15 @@ export default defineComponent({
         api.post('/getnft', data).then(response => {
           console.log(response.data);
           console.log(response.data.transaction_hash);
+          console.log(`token_id:${response.data.token_id}`);
 
           notif({
             type: 'positive',
             message: `Check out the NFT. tx_id:${response.data.transaction_hash}`,
             timeout: 1000
           });
+
+          makerStore.reservations = [];
         });
 
       } catch (e) {
@@ -533,7 +574,8 @@ export default defineComponent({
       nftMint,
       test,
       test2,
-      canvasRefresh1
+      canvasRefresh1,
+      delReservation
     };
   }
 });

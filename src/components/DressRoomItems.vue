@@ -41,7 +41,7 @@ export default defineComponent({
 
 <style lang='sass'>
 .dressroom-items-sm
-  width: 20%
+  width: 25%
   //border: solid 1px
   //border-color: red
   display: inline-block
