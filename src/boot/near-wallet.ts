@@ -213,6 +213,7 @@ class NWallet {
     return new Promise(async (resolve, reject) => {
       try {
         const accountId = this.accountId
+        console.log('get_reservations:: accountId:', accountId)
         if (accountId === null) {
           throw new Error('Unable to get account id.')
         }
@@ -224,6 +225,7 @@ class NWallet {
         }
         resolve(result)
       } catch (e) {
+        console.log('get_reservations 여기서 에러??')
         console.log(e)
         reject(e)
       }
