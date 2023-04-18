@@ -1,5 +1,6 @@
 <template>
 
+  <q-btn v-if='authStore.isSignIn' label='getReservation' @click='getReservation' />
   <div class='q-pa-md gt-sm row'>
     <div class='col-2'>
       <img src='icons/icon.png' style='width: 30px; height: 30px' @click='$router.push("/")' />
@@ -115,7 +116,7 @@ export default defineComponent({
   components: { DressRoom },
   async mounted() {
     // (adsbygoogle = window.adsbygoogle || []).push({});
-    await this.getReservation();
+    // await this.getReservation();
 
     const canvas = this.$refs.canvas1;
     const context = canvas.getContext('2d');
