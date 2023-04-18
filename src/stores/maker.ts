@@ -488,7 +488,7 @@ export const useMakerStore = defineStore('makerStore', {
     enabled: true,
     strategies: [
       {
-        key: 'maker',
+        key: 'makerStore',
         storage: localStorage,
       },
     ],

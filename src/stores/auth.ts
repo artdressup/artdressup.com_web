@@ -107,7 +107,7 @@ export const useAuthStore = defineStore('authStore', {
     enabled: true,
     strategies: [
       {
-        key: 'auth',
+        key: 'authStore',
         storage: localStorage,
       },
     ],
