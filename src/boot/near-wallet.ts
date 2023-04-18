@@ -216,6 +216,7 @@ class NWallet {
         if (accountId === null) {
           throw new Error('Unable to get account id.')
         }
+        console.log('get_reservations.. accountId::', accountId)
         const result = await this.viewMethod({ contractId: CONTRACT_ADDRESS, method: 'get_reservations', args: { account_id: accountId }});
         if (result !== null) {
           console.log('test_get_reservations:', result)
@@ -224,6 +225,7 @@ class NWallet {
         }
         resolve(result)
       } catch (e) {
+        console.log('get_reservations 에러??')
         console.log(e)
         reject(e)
       }
