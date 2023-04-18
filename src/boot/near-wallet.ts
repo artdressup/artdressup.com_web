@@ -199,7 +199,7 @@ class NWallet {
           throw new Error('Unable to get account id.')
         }
 
-        const result = await this.callMethod({ contractId: CONTRACT_ADDRESS, method: 'create_reservation', args: { token_id: token_id }, deposit: wallet.parseNearAmount('20') });
+        const result = await this.callMethod({ contractId: CONTRACT_ADDRESS, method: 'create_reservation', args: { token_id }, deposit: wallet.parseNearAmount('20') });
         console.log('test_create_reservation Result::', result)
         resolve(reject)
       } catch (e) {
@@ -212,12 +212,13 @@ class NWallet {
   async get_reservations() {
     return new Promise(async (resolve, reject) => {
       try {
-        const accountId = this.accountId
-        console.log('get_reservations:: accountId:', accountId)
-        if (accountId === null) {
+        const account_id = this.accountId
+        console.log('get_reservations:: accountId:', account_id)
+        if (account_id === null) {
           throw new Error('Unable to get account id.')
         }
-        const result = await this.viewMethod({ contractId: CONTRACT_ADDRESS, method: 'get_reservations', args: { account_id: accountId }});
+
+        const result = await this.viewMethod({ contractId: CONTRACT_ADDRESS, method: 'get_reservations', args: { account_id }});
         if (result !== null) {
           console.log('test_get_reservations:', result)
         } else {
