@@ -191,7 +191,7 @@ class NWallet {
   }
 
   // nft 예약 생성
-  async test_create_reservation(token_id: string) {
+  async create_reservation(token_id: string) {
     return new Promise(async (resolve, reject) => {
       try {
         const accountId = this.accountId
@@ -209,14 +209,14 @@ class NWallet {
     })
   }
 
-  async test_get_reservations() {
+  async get_reservations() {
     return new Promise(async (resolve, reject) => {
       try {
         const accountId = this.accountId
         if (accountId === null) {
           throw new Error('Unable to get account id.')
         }
-        const result = await this.viewMethod({ contractId: CONTRACT_ADDRESS, method: 'get_reservations', args: { account_id: 'hsyang.testnet' }});
+        const result = await this.viewMethod({ contractId: CONTRACT_ADDRESS, method: 'get_reservations', args: { account_id: accountId }});
         if (result !== null) {
           console.log('test_get_reservations:', result)
         } else {

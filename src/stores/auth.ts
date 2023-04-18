@@ -94,10 +94,10 @@ export const useAuthStore = defineStore('authStore', {
       console.log('nft_reservation Result::', result);
     },
     async create_reservation (token_id: string) {
-      return wallet.test_create_reservation(token_id)
+      return wallet.create_reservation(token_id)
     },
     async get_reservation () {
-      return wallet.test_get_reservations()
+      return wallet.get_reservations()
     },
     async del_nft (token_id: string) {
       return wallet.test_del_nft(token_id)

@@ -31,11 +31,8 @@
           <q-btn v-if='authStore.isSignIn' label='mint' @click='nftReservation' />
         </div>
 
-<!--        <q-btn label='del res' @click='delReservation' />-->
       </div>
 
-      <!--      <q-btn label='test' @click='test' />-->
-      <!--      <q-btn label='test2' @click='test2' />-->
 
     </div>
     <div class='col'>
@@ -43,7 +40,6 @@
         <!--        <q-btn label='hello'/>-->
         <!--        {{getAccountId()}}-->
 
-        <!--        <q-btn label='gettoken' @click='getTokenId' />-->
 
         <q-badge v-if='authStore.isSignIn' color='orange' :label=authStore.accountId />
         <q-btn v-if='authStore.isSignIn' label='signOut' @click='signOut' />
@@ -144,15 +140,11 @@ export default defineComponent({
     // authStore.init();
     // makerStore.init();
 
-    const state = reactive({
-      // isSignedIn: computed(() => $authStore.isSignedIn),
-      canvas2: null,
-      tokenId: ''
-    });
-
-    const test1 = () => {
-      authStore.testMethod1();
-    };
+    // const state = reactive({
+    //   // isSignedIn: computed(() => $authStore.isSignedIn),
+    //   canvas2: null,
+    //   tokenId: ''
+    // });
 
     const getPath = (name) => {
       return makerStore.getPath(name);
@@ -327,55 +319,9 @@ export default defineComponent({
       return tokenId;
     };
 
-    const calltest = async () => {
-      const result = await wallet.testCallMethod1();
-      state.tokenId = JSON.stringify(result);
-      console.log('calltest result:', result);
-    };
-
-    const calltest2 = async () => {
-      const result = await wallet.testCallMethod2();
-      // state.tokenId = JSON.stringify(result)
-      console.log('calltest2 result:', result);
-    };
-
-    const viewtest = async () => {
-      const result = await wallet.testViewMethod1();
-      console.log('testview result:', result);
-    };
-    const gettoken = async () => {
-      const data = {
-        account_id: 'hsyang.testnet',
-        token_id: 'hello123token12344567',
-        coordination: {
-          body: 1,
-          hair: 1,
-          eyes: 1,
-          shirts: 1,
-          pants: 1,
-          shoes: 0
-        }
-      };
-
-      api.post('/getnft', data).then(response => {
-        console.log(response.data);
-        console.log(response.data.hello);
-      })
-
-        .catch(err => {
-          console.log(err);
-        });
-
-    };
     const getAccountId = () => {
       return authStore.getAccountId();
     };
-
-    const accountId = ref(getAccountId());
-
-    // const isSignedIn = () => {
-    //   return authStore.isSignedIn()
-    // }
 
     const signIn = () => {
       authStore.signIn();
@@ -404,7 +350,7 @@ export default defineComponent({
     };
 
     const getReservation = async () => {
-      console.log('getReservation')
+      console.log('getReservation');
       if (authStore.isSignIn) {
         const tokenId = getTokenId();
         const result = await authStore.get_reservation();
@@ -417,33 +363,11 @@ export default defineComponent({
           makerStore.reservations = reservations;
         } else {
           makerStore.reservations = [];
-
-          console.log('getReservation.. ?? else ?? 1234')
+          console.log('getReservation.. ?? else ?? 1234');
         }
-        console.log('getReservation result:', result);
       } else {
-        console.log('getReservation.. ?? else ??')
+        console.log('getReservation.. ?? else ??');
       }
-    };
-
-    const delReservation = async () => {
-
-      const account_id = 'hsyang.testnet';
-      const data = {
-        account_id,
-        testkey: 'abc123cba321!@'
-      };
-      // abc123cba321!@
-      api.post('/delres', data).then(response => {
-        console.log(response.data);
-        // console.log(response.data.transaction_hash);
-
-        // notif({
-        //   type: 'positive',
-        //   message: `Check out the NFT. tx_id:${response.data.transaction_hash}`,
-        //   timeout: 1000
-        // });
-      });
     };
 
     const nftMint = async (token_id) => {
@@ -465,15 +389,6 @@ export default defineComponent({
           message: 'Creating NFTs.'
         });
 
-        // simulate delay
-        // setTimeout(() => {
-        //   notif({
-        //     type: 'positive',
-        //     message: 'Found the results that you were looking for',
-        //     timeout: 1000
-        //   })
-        // }, 4000)
-
         api.post('/getnft', data).then(response => {
           console.log(response.data);
           console.log(response.data.transaction_hash);
@@ -491,91 +406,25 @@ export default defineComponent({
       } catch (e) {
         console.error(`nftMint Error: ${e}`);
       }
-      /*
-      *
-      *
-      const data = {
-        account_id: 'hsyang.testnet',
-        token_id: 'hello123token12344567',
-        coordination: {
-          body: 1,
-          hair: 1,
-          eyes: 1,
-          shirts: 1,
-          pants: 1,
-          shoes: 0
-        }
-      };
 
-      api.post('/getnft', data).then(response => {
-        console.log(response.data);
-        console.log(response.data.hello);
-      })
-
-        .catch(err => {
-          console.log(err);
-        });
-
-      * */
-
-      // api.post('/getnft', )
-    };
-
-    // const isSignIn = () => {
-    //   return $authStore.isSignedIn;
-    // };
-    const test = () => {
-      // makerStore.TokenObj();
-      const aa = makerStore.getTokenObj3;
-      console.log(JSON.stringify(aa));
-      // $q.notify('Message')
-
-      const notif = $q.notify({
-        type: 'ongoing',
-        message: 'Looking up the search terms...'
-      });
-
-      // simulate delay
-      setTimeout(() => {
-        notif({
-          type: 'positive',
-          message: 'Found the results that you were looking for',
-          timeout: 1000
-        });
-      }, 4000);
-
-    };
-
-    const test2 = () => {
-      makerStore.TestABC();
     };
 
     return {
-      viewtest,
-      calltest,
-      calltest2,
       getPath,
       context1,
       context2,
-      ...toRef(state),
-
+      // ...toRef(state),
       getTokenId,
-      test1,
-      gettoken,
       signIn,
       signOut,
       getAccountId,
       // isSignedIn,
-      accountId,
       authStore,
       makerStore,
       nftReservation,
       getReservation,
       nftMint,
-      test,
-      test2,
-      canvasRefresh1,
-      delReservation
+      canvasRefresh1
     };
   }
 });
