@@ -7,12 +7,12 @@ import {providers, utils} from 'near-api-js';
 import NearIconUrl from '@near-wallet-selector/near-wallet/assets/near-wallet-icon.png';
 import MyNearIconUrl from '@near-wallet-selector/my-near-wallet/assets/my-near-wallet-icon.png';
 // sender wallet에서 nft를 볼 수 없기 때문에 제거
-// import SenderIconUrl from '@near-wallet-selector/sender/assets/sender-icon.png'
+import SenderIconUrl from '@near-wallet-selector/sender/assets/sender-icon.png'
 
 import {setupWalletSelector, WalletSelector, Wallet, NetworkId, Network} from "@near-wallet-selector/core";
 import { setupNearWallet } from "@near-wallet-selector/near-wallet";
 import {setupMyNearWallet} from "@near-wallet-selector/my-near-wallet";
-// import {setupSender} from "@near-wallet-selector/sender";
+import {setupSender} from "@near-wallet-selector/sender";
 import {setupModal, WalletSelectorModal} from "@near-wallet-selector/modal-ui";
 import * as buffer from "buffer";
 (window as any).Buffer = buffer.Buffer;
@@ -44,7 +44,7 @@ class NWallet {
       modules: [
         setupNearWallet({iconUrl: NearIconUrl}),
         setupMyNearWallet({iconUrl: MyNearIconUrl}),
-        // setupSender({iconUrl: SenderIconUrl})
+        setupSender({iconUrl: SenderIconUrl})
       ]
     })
 
@@ -199,7 +199,7 @@ class NWallet {
           throw new Error('Unable to get account id.')
         }
 
-        const result = await this.callMethod({ contractId: CONTRACT_ADDRESS, method: 'create_reservation', args: { token_id }, deposit: wallet.parseNearAmount('20') });
+        const result = await this.callMethod({ contractId: CONTRACT_ADDRESS, method: 'create_reservation', args: { token_id }, deposit: wallet.parseNearAmount('10') });
         console.log('test_create_reservation Result::', result)
         resolve(reject)
       } catch (e) {
@@ -322,7 +322,7 @@ class NWallet {
 //     modal.show();
 // })
 
-const wallet = new NWallet({createAccessKeyFor: CONTRACT_ADDRESS!, network: 'testnet'})
+const wallet = new NWallet({createAccessKeyFor: CONTRACT_ADDRESS!, network: 'mainnet'})
 // wallet.startUp()
 
 export default boot(async ({app}) => {
