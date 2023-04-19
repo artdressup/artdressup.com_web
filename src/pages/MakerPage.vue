@@ -46,10 +46,6 @@
         <q-btn v-if='authStore.isSignIn' label='signOut' @click='signOut' />
         <q-btn v-else label='signIn' @click='signIn' />
 
-        <q-badge color='blue'>
-          TESTNET
-        </q-badge>
-
       </div>
 
       <DressRoom width='2vw' height='2vw' />
