@@ -20,7 +20,7 @@ import * as buffer from "buffer";
 const THIRTY_TGAS = '30000000000000';
 const NO_DEPOSIT = '0';
 
-const CONTRACT_ADDRESS = process.env.CONTRACT_NAME;
+const CONTRACT_ADDRESS = 'test.artdressup.near' // process.env.CONTRACT_NAME;
 console.log("CONTRACT_ADDRESS: " + CONTRACT_ADDRESS)
 
 class NWallet {
