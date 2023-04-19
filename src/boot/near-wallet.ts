@@ -20,7 +20,7 @@ import * as buffer from "buffer";
 const THIRTY_TGAS = '30000000000000';
 const NO_DEPOSIT = '0';
 
-const CONTRACT_ADDRESS = 'test.artdressup.near' // process.env.CONTRACT_NAME;
+const CONTRACT_ADDRESS = 'test.artdressup.testnet' // process.env.CONTRACT_NAME;
 console.log("CONTRACT_ADDRESS: " + CONTRACT_ADDRESS)
 
 class NWallet {
@@ -322,7 +322,7 @@ class NWallet {
 //     modal.show();
 // })
 
-const wallet = new NWallet({createAccessKeyFor: CONTRACT_ADDRESS!, network: 'mainnet'})
+const wallet = new NWallet({createAccessKeyFor: CONTRACT_ADDRESS!, network: 'testnet'})
 // wallet.startUp()
 
 export default boot(async ({app}) => {
