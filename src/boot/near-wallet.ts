@@ -199,7 +199,7 @@ class NWallet {
           throw new Error('Unable to get account id.')
         }
 
-        const result = await this.callMethod({ contractId: CONTRACT_ADDRESS, method: 'create_reservation', args: { token_id }, deposit: wallet.parseNearAmount('10') });
+        const result = await this.callMethod({ contractId: CONTRACT_ADDRESS, method: 'create_reservation', args: { token_id }, deposit: wallet.parseNearAmount('20') });
         console.log('test_create_reservation Result::', result)
         resolve(reject)
       } catch (e) {
