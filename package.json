@@ -6,10 +6,16 @@
   "author": "hsyang <artdressup.com@gmail.com>",
   "private": true,
   "scripts": {
+    "start": "serve -s dist/pwa",
+    "build": "quasar build -m pwa",
     "lint": "eslint --ext .js,.ts,.vue ./",
     "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
     "test": "echo \"No test specified\" && exit 0",
-    "dev": "quasar dev"
+    "dev": "quasar dev",
+    "dk_build": "docker build -t node .",
+    "dk_tag": "docker tag node:18.14.2 633446688211.dkr.ecr.us-east-1.amazonaws.com/node18:18.14.2",
+    "dk_login": "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 633446688211.dkr.ecr.us-east-1.amazonaws.com/node18:18.14.2",
+    "dk_push": "docker push 633446688211.dkr.ecr.us-east-1.amazonaws.com/node18:18.14.2"
   },
   "dependencies": {
     "@babylonjs/loaders": "^5.51.0",

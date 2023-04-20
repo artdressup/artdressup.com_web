@@ -1,5 +1,4 @@
 <template>
-
   <div class='q-pa-md gt-sm row'>
     <div class='col-2'>
       <img src='icons/icon.png' style='width: 30px; height: 30px' @click='$router.push("/")' />
@@ -18,7 +17,7 @@
       </div>
 
       <div class='row justify-center'>
-        <div v-if='makerStore.reservations.length > 0'>
+        <div v-if='authStore.isSignIn && makerStore.reservations.length > 0'>
           <template v-for='token_id in makerStore.reservations' :key='token_id'>
             <q-btn label='recieve' @click='nftMint(token_id)'>
               <q-tooltip>
@@ -30,7 +29,6 @@
         <div v-else>
           <q-btn v-if='authStore.isSignIn' label='mint' @click='nftReservation' />
         </div>
-
       </div>
 
 
@@ -40,14 +38,9 @@
         <!--        <q-btn label='hello'/>-->
         <!--        {{getAccountId()}}-->
 
-
         <q-badge v-if='authStore.isSignIn' color='orange' :label=authStore.accountId />
         <q-btn v-if='authStore.isSignIn' label='signOut' @click='signOut' />
         <q-btn v-else label='signIn' @click='signIn' />
-
-        <q-badge color='blue'>
-          TESTNET
-        </q-badge>
 
       </div>
 
@@ -75,7 +68,7 @@
     </div>
     <div v-if='authStore.isSignIn' class='col row justify-center q-pa-md'>
 
-      <div v-if='makerStore.reservations.length > 0'>
+      <div v-if='authStore.isSignIn && makerStore.reservations.length > 0'>
         <template v-for='token_id in makerStore.reservations' :key='token_id'>
           <q-btn label='recieve' @click='nftMint(token_id)'>
             <q-tooltip>
@@ -397,7 +390,7 @@ export default defineComponent({
           notif({
             type: 'positive',
             message: `Check out the NFT. tx_id:${response.data.transaction_hash}`,
-            timeout: 1000
+            timeout: 3000
           });
 
           makerStore.reservations = [];

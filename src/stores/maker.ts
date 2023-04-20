@@ -453,6 +453,7 @@ export const useMakerStore = defineStore('makerStore', {
         delete copiedObject['shirts']
         delete copiedObject['pants']
       }
+      // debug1
 
       const choiceStr = JSON.stringify(copiedObject);
 
@@ -488,7 +489,7 @@ export const useMakerStore = defineStore('makerStore', {
     enabled: true,
     strategies: [
       {
-        key: 'maker',
+        key: 'makerStore',
         storage: localStorage,
       },
     ],

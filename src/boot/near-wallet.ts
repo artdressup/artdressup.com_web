@@ -7,12 +7,12 @@ import {providers, utils} from 'near-api-js';
 import NearIconUrl from '@near-wallet-selector/near-wallet/assets/near-wallet-icon.png';
 import MyNearIconUrl from '@near-wallet-selector/my-near-wallet/assets/my-near-wallet-icon.png';
 // sender wallet에서 nft를 볼 수 없기 때문에 제거
-// import SenderIconUrl from '@near-wallet-selector/sender/assets/sender-icon.png'
+import SenderIconUrl from '@near-wallet-selector/sender/assets/sender-icon.png'
 
 import {setupWalletSelector, WalletSelector, Wallet, NetworkId, Network} from "@near-wallet-selector/core";
 import { setupNearWallet } from "@near-wallet-selector/near-wallet";
 import {setupMyNearWallet} from "@near-wallet-selector/my-near-wallet";
-// import {setupSender} from "@near-wallet-selector/sender";
+import {setupSender} from "@near-wallet-selector/sender";
 import {setupModal, WalletSelectorModal} from "@near-wallet-selector/modal-ui";
 import * as buffer from "buffer";
 (window as any).Buffer = buffer.Buffer;
@@ -20,8 +20,10 @@ import * as buffer from "buffer";
 const THIRTY_TGAS = '30000000000000';
 const NO_DEPOSIT = '0';
 
-const CONTRACT_ADDRESS = process.env.CONTRACT_NAME;
+const CONTRACT_ADDRESS = 'test.artdressup.testnet' // process.env.CONTRACT_NAME;
 console.log("CONTRACT_ADDRESS: " + CONTRACT_ADDRESS)
+
+type Callback = ()=>void;
 
 class NWallet {
   createAccessKeyFor: string
@@ -32,6 +34,8 @@ class NWallet {
   modal: WalletSelectorModal | null = null
   // state: string | null = null
   isSignIn = false
+  signedInCallback: null | Callback = null
+  signedOutCallback: null | Callback = null
 
   constructor(o: { createAccessKeyFor: string, network: NetworkId | Network }) {
     this.createAccessKeyFor = o.createAccessKeyFor
@@ -39,51 +43,56 @@ class NWallet {
   }
 
   async startUp() {
-    this.walletSelector = await setupWalletSelector({
-      network: this.network,
-      modules: [
-        setupNearWallet({iconUrl: NearIconUrl}),
-        setupMyNearWallet({iconUrl: MyNearIconUrl}),
-        // setupSender({iconUrl: SenderIconUrl})
-      ]
-    })
+      this.walletSelector = await setupWalletSelector({
+        network: this.network,
+        modules: [
+          setupNearWallet({iconUrl: NearIconUrl}),
+          setupMyNearWallet({iconUrl: MyNearIconUrl}),
+          setupSender({iconUrl: SenderIconUrl})
+        ]
+      })
 
-    // this.walletSelector.on('signedIn', async event => {
-    //   console.log('signedIn!!!@@1')
-    //   this.isSignIn = true
-    //   this.wallet = await this.walletSelector!.wallet();
-    //   this.accountId = this.walletSelector!.store.getState().accounts[0].accountId;
-    //   console.log(this.accountId)
-    //   console.log('signedIn!!!@@2')
-    // })
-    //
-    // this.walletSelector.on('signedOut', event => {
-    //   console.log('signedOut!!@@!1')
-    //   this.isSignIn = false
-    //   this.wallet = null
-    //   this.accountId = null
-    // })
-    //
-    // this.walletSelector.on('accountsChanged', event => {
-    //   console.log('accountsChanged!!@@!')
-    // })
-    //
-    // this.walletSelector.on('networkChanged', event => {
-    //   console.log('networkChanged!!@@!')
-    // })
-    //
-    // this.walletSelector.on('uriChanged', event => {
-    //   console.log('uriChanged!!@@!')
-    // })
+      this.walletSelector?.on('signedIn', async event => {
+        console.log('signedIn!!!@@1');
+        this.isSignIn = true;
+        this.wallet = await this.walletSelector!.wallet();
+        this.accountId = this.walletSelector!.store.getState().accounts[0].accountId;
+        console.log('signedIn!!!@@2');
+        if (this.signedInCallback !== null) {
+          this.signedInCallback()
+        }
+      });
 
-    this.isSignIn = this.walletSelector?.isSignedIn();
+      this.walletSelector?.on('signedOut', event => {
+        console.log('signedOut!!@@!1');
+        this.isSignIn = false;
+        this.accountId = null;
 
-    if (this.isSignIn) {
-      this.wallet = await this.walletSelector.wallet();
-      this.accountId = this.walletSelector.store.getState().accounts[0].accountId;
+        if (this.signedOutCallback !== null) {
+          this.signedOutCallback()
+        }
+      });
 
-      console.log('aa:' + this.accountId)
-    }
+      this.walletSelector?.on('accountsChanged', event => {
+        console.log('accountsChanged!!@@!');
+      });
+
+      this.walletSelector?.on('networkChanged', event => {
+        console.log('networkChanged!!@@!');
+      });
+
+      this.walletSelector?.on('uriChanged', event => {
+        console.log('uriChanged!!@@!');
+      });
+
+      this.isSignIn = this.walletSelector?.isSignedIn();
+
+      if (this.isSignIn) {
+        this.wallet = await this.walletSelector.wallet();
+        this.accountId = this.walletSelector.store.getState().accounts[0].accountId;
+
+        console.log('aa:' + this.accountId)
+      }
 
     return this.isSignIn;
   }
@@ -194,12 +203,12 @@ class NWallet {
   async create_reservation(token_id: string) {
     return new Promise(async (resolve, reject) => {
       try {
-        const accountId = this.accountId
-        if (accountId === null) {
+        const account_id = this.accountId
+        if (account_id === null) {
           throw new Error('Unable to get account id.')
         }
 
-        const result = await this.callMethod({ contractId: CONTRACT_ADDRESS, method: 'create_reservation', args: { token_id: token_id }, deposit: wallet.parseNearAmount('20') });
+        const result = await this.callMethod({ contractId: CONTRACT_ADDRESS, method: 'create_reservation', args: { token_id }, deposit: wallet.parseNearAmount('20') });
         console.log('test_create_reservation Result::', result)
         resolve(reject)
       } catch (e) {
@@ -212,12 +221,12 @@ class NWallet {
   async get_reservations() {
     return new Promise(async (resolve, reject) => {
       try {
-        const accountId = this.accountId
-        if (accountId === null) {
+        const account_id = this.accountId
+        if (account_id === null) {
           throw new Error('Unable to get account id.')
         }
-        console.log('get_reservations.. accountId::', accountId)
-        const result = await this.viewMethod({ contractId: CONTRACT_ADDRESS, method: 'get_reservations', args: { account_id: accountId }});
+
+        const result = await this.viewMethod({ contractId: CONTRACT_ADDRESS, method: 'get_reservations', args: { account_id: account_id }});
         if (result !== null) {
           console.log('test_get_reservations:', result)
         } else {
@@ -225,7 +234,7 @@ class NWallet {
         }
         resolve(result)
       } catch (e) {
-        console.log('get_reservations 에러??')
+        console.log('get_reservations 여기서 에러??')
         console.log(e)
         reject(e)
       }
@@ -322,7 +331,6 @@ class NWallet {
 // })
 
 const wallet = new NWallet({createAccessKeyFor: CONTRACT_ADDRESS!, network: 'testnet'})
-// wallet.startUp()
 
 export default boot(async ({app}) => {
   // something to do
@@ -330,7 +338,8 @@ export default boot(async ({app}) => {
   // ^ ^ ^ this will allow you to use this.$api (for Vue Options API form)
   //       so you can easily perform requests against your app's API
   app.config.globalProperties.$wallet = wallet;
-  // await wallet.startUp()
+  await wallet.startUp()
+  console.log('boot wallet.startUp done!')
   // console.log('boot wallet.startUp!!')
 })
 
