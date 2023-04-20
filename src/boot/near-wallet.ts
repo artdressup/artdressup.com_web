@@ -46,9 +46,9 @@ class NWallet {
       this.walletSelector = await setupWalletSelector({
         network: this.network,
         modules: [
-          setupNearWallet({iconUrl: NearIconUrl}),
+          // setupNearWallet({iconUrl: NearIconUrl}),
           setupMyNearWallet({iconUrl: MyNearIconUrl}),
-          setupSender({iconUrl: SenderIconUrl})
+          // setupSender({iconUrl: SenderIconUrl})
         ]
       })
 
