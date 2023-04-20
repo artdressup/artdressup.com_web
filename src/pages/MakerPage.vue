@@ -17,7 +17,7 @@
       </div>
 
       <div class='row justify-center'>
-        <div v-if='makerStore.reservations.length > 0'>
+        <div v-if='authStore.isSignIn && makerStore.reservations.length > 0'>
           <template v-for='token_id in makerStore.reservations' :key='token_id'>
             <q-btn label='recieve' @click='nftMint(token_id)'>
               <q-tooltip>
@@ -37,7 +37,6 @@
       <div class='row justify-end' style='height: 5vh'>
         <!--        <q-btn label='hello'/>-->
         <!--        {{getAccountId()}}-->
-
 
         <q-badge v-if='authStore.isSignIn' color='orange' :label=authStore.accountId />
         <q-btn v-if='authStore.isSignIn' label='signOut' @click='signOut' />
@@ -69,7 +68,7 @@
     </div>
     <div v-if='authStore.isSignIn' class='col row justify-center q-pa-md'>
 
-      <div v-if='makerStore.reservations.length > 0'>
+      <div v-if='authStore.isSignIn && makerStore.reservations.length > 0'>
         <template v-for='token_id in makerStore.reservations' :key='token_id'>
           <q-btn label='recieve' @click='nftMint(token_id)'>
             <q-tooltip>
@@ -402,7 +401,6 @@ export default defineComponent({
       }
 
     };
-    //
 
     return {
       getPath,
