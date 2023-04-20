@@ -101,16 +101,16 @@ export const useAuthStore = defineStore('authStore', {
     async del_nft (token_id: string) {
       return wallet.test_del_nft(token_id)
     }
-  }//,
-  // persist: {
-  //   enabled: true,
-  //   strategies: [
-  //     {
-  //       key: 'authStore',
-  //       storage: localStorage,
-  //     },
-  //   ],
-  // }
+  },
+  persist: {
+    enabled: true,
+    strategies: [
+      {
+        key: 'authStore',
+        storage: localStorage,
+      },
+    ],
+  }
 });
 
 const store = useAuthStore()
