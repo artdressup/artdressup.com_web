@@ -390,7 +390,7 @@ export default defineComponent({
           notif({
             type: 'positive',
             message: `Check out the NFT. tx_id:${response.data.transaction_hash}`,
-            timeout: 1000
+            timeout: 3000
           });
 
           makerStore.reservations = [];
