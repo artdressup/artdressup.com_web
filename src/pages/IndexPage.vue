@@ -30,7 +30,7 @@
       <div class='col fit'>
           <div class='video-container'>
             <!--      큰화면-->
-            <video autoplay loop>
+            <video autoplay loop muted>
               <source src='https://cdn.artdressup.com/web/main.mp4' type='video/mp4'>
             </video>
           </div>
