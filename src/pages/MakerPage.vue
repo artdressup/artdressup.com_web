@@ -1,6 +1,4 @@
 <template>
-
-  <q-btn v-if='authStore.isSignIn' label='getReservation' @click='getReservation' />
   <div class='q-pa-md gt-sm row'>
     <div class='col-2'>
       <img src='icons/icon.png' style='width: 30px; height: 30px' @click='$router.push("/")' />
@@ -31,7 +29,6 @@
         <div v-else>
           <q-btn v-if='authStore.isSignIn' label='mint' @click='nftReservation' />
         </div>
-
       </div>
 
 
