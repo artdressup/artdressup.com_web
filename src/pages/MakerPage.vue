@@ -109,7 +109,7 @@ export default defineComponent({
   components: { DressRoom },
   async mounted() {
     // (adsbygoogle = window.adsbygoogle || []).push({});
-    // await this.getReservation();
+    await this.getReservation();
 
     const canvas = this.$refs.canvas1;
     const context = canvas.getContext('2d');
