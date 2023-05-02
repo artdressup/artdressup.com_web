@@ -16,6 +16,11 @@ const routes: RouteRecordRaw[] = [
     // component: () => import('layouts/MainLayout.vue'),
     children: [{ path: '', component: () => import('pages/MakerPage.vue') }],
   },
+  {
+    path: '/mynfts',
+    // component: () => import('layouts/MainLayout.vue'),
+    children: [{ path: '', component: () => import('pages/MyNFTs.vue') }],
+  },
 
   // Always leave this as last one,
   // but you can also remove it

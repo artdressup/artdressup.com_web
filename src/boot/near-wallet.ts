@@ -226,7 +226,7 @@ class NWallet {
           throw new Error('Unable to get account id.')
         }
 
-        const result = await this.viewMethod({ contractId: CONTRACT_ADDRESS, method: 'get_reservations', args: { account_id: account_id }});
+        const result = await this.viewMethod({ contractId: CONTRACT_ADDRESS, method: 'get_reservations', args: { account_id: account_id } });
         if (result !== null) {
           console.log('test_get_reservations:', result)
         } else {
@@ -234,7 +234,28 @@ class NWallet {
         }
         resolve(result)
       } catch (e) {
-        console.log('get_reservations 여기서 에러??')
+        console.log(e)
+        reject(e)
+      }
+    })
+  }
+
+  async get_my_token_ids() {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const account_id = this.accountId
+        if (account_id === null) {
+          throw new Error('Unable to get account id.')
+        }
+
+        const result = await this.viewMethod({ contractId: CONTRACT_ADDRESS, method: 'get_my_token_ids', args: { account_id: account_id } });
+        if (result !== null) {
+          console.log('get_my_token_ids:', result)
+        } else {
+          console.log('get_my_token_ids result is null')
+        }
+        resolve(result)
+      } catch (e) {
         console.log(e)
         reject(e)
       }

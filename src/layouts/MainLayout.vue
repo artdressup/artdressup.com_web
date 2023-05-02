@@ -15,6 +15,8 @@
           <q-btn class='adu-ff' label='play' to='/maker' />
           <q-btn class='adu-ff' label='github' @click='goToGitHub'/>
           <q-btn class='adu-ff' label='docs' @click='goToDocs'/>
+          <q-btn class='adu-ff' label='twitter' @click='goToTwitter'/>
+          <q-btn class='adu-ff' label='youtube' @click='goToYoutube'/>
           <!--        <q-btn-->
           <!--          flat-->
           <!--          dense-->
@@ -90,6 +92,13 @@ export default defineComponent({
     const goToDocs = () => {
       window.open('https://docs.artdressup.com/', '_blank')
     }
+    const goToTwitter= () => {
+      window.open('https://twitter.com/donggeuri0320', '_blank')
+    }
+
+    const goToYoutube= () => {
+      window.open('https://www.youtube.com/watch?v=5rWnN8nCRyo', '_blank')
+    }
 
     return {
       essentialLinks: linksList,
@@ -98,7 +107,9 @@ export default defineComponent({
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },
       goToGitHub,
-      goToDocs
+      goToDocs,
+      goToTwitter,
+      goToYoutube,
       // signIn,
     };
   }

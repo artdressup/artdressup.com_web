@@ -2,6 +2,8 @@
   <div class='q-pa-md gt-sm row'>
     <div class='col-2'>
       <img src='icons/icon.png' style='width: 30px; height: 30px' @click='$router.push("/")' />
+
+<!--      <q-btn label='MYNFTS' to='/mynfts'/>-->
       <!--      <ins class='adsbygoogle'-->
       <!--           style='display:block; text-align:center;'-->
       <!--           data-ad-layout='in-article'-->
@@ -402,7 +404,12 @@ export default defineComponent({
 
     };
 
+    const aaa = async () => {
+       authStore.get_my_token_ids()
+    }
+
     return {
+      aaa,
       getPath,
       context1,
       context2,
