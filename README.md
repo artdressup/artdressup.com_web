@@ -1,6 +1,6 @@
 # Art Dress Up (artdressup)
 
-Put on what you want
+### This project is temporarily suspended due to company and learning.
 
 ## Install the dependencies
 ```bash
